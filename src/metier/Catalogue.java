@@ -86,9 +86,21 @@ public class Catalogue implements I_Catalogue {
         }
         return index;
     }
+
     //Todo  : je sais pas a quoi elle sert cette méthode..
     @Override
     public void clear() {
 
+    }
+
+    @Override
+    public String toString() {
+        String message = "";
+        for (I_Produit produit : lesProduits) {
+            message += produit.toString();
+            message += "\n";
+        }
+        message += "Montant total TTC du stock " + getMontantTotalTTC() + "€";
+        return message;
     }
 }

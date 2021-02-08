@@ -71,4 +71,9 @@ public class Produit implements I_Produit{
         }
         return somme;
     }
+
+    @Override
+    public String toString() {
+        return getNom() + " prixHT:" + getPrixUnitaireHT() + "€ prixTTC:" + getPrixUnitaireTTC() + "€ quantité en stock:" + getQuantite();
+    }
 }
