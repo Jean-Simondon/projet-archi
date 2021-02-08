@@ -15,7 +15,11 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public boolean addProduit(I_Produit produit) {
-        return lesProduits.add(produit);
+        if( produit != null ) {
+            return lesProduits.add(produit);
+        } else {
+            return false;
+        }
     }
 
     @Override
