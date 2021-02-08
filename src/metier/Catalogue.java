@@ -23,8 +23,10 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public boolean addProduit(I_Produit produit) {
-        if( isValidProduit(produit) )
+        if( isValidProduit(produit) ){
             return lesProduits.add(produit);
+        }
+        else return false;
     }
 
     @Override
