@@ -36,7 +36,7 @@ public class Produit implements I_Produit{
      */
     @Override
     public boolean enlever(int qteVendue) {
-        if(qteVendue > 0 && qteVendue < this.quantiteStock){
+        if(qteVendue > 0 && qteVendue < getQuantite()){
             this.quantiteStock -= qteVendue;
             return true;
         }
