@@ -23,23 +23,8 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public boolean addProduit(I_Produit produit) {
-        if (produit == null) {
-            return false;
-        } else if ( lesProduits.contains(produit) ) {
-            return false;
-        }
-        if( produit.getQuantite() < 0) {
-            return false;
-        }
-        if( produit.getPrixUnitaireHT() < 1) {
-            return false;
-        }
-        for (I_Produit p : lesProduits) {
-            if(p.getNom().equals(produit.getNom())){
-                return false;
-            }
-        }
-        return lesProduits.add(produit);
+        if( isValidProduit(produit) )
+            return lesProduits.add(produit);
     }
 
     @Override
@@ -155,9 +140,30 @@ public class Catalogue implements I_Catalogue {
     }
 
 
-
-
-
+    /**
+     * vérifie si un produit remplie les conditions pour être ajouté au catalogue
+     * @param produit
+     * @return
+     */
+    public boolean isValidProduit(I_Produit produit) {
+        if (produit == null) {
+            return false;
+        } else if ( lesProduits.contains(produit) ) {
+            return false;
+        }
+        if( produit.getQuantite() < 0) {
+            return false;
+        }
+        if( produit.getPrixUnitaireHT() < 1) {
+            return false;
+        }
+        for (I_Produit p : lesProduits) {
+            if(p.getNom().equals(produit.getNom())){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }
 
