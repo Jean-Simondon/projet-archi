@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Comparator;
 import java.util.List;
 
@@ -21,12 +23,29 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public boolean addProduit(I_Produit produit) {
+        if (produit == null) {
+            return false;
+        } else if ( lesProduits.contains(produit) ) {
+            return false;
+        }
+        if( produit.getQuantite() < 0) {
+            return false;
+        }
+        if( produit.getPrixUnitaireHT() < 1) {
+            return false;
+        }
+        for (I_Produit p : lesProduits) {
+            if(p.getNom().equals(produit.getNom())){
+                return false;
+            }
+        }
         return lesProduits.add(produit);
     }
 
     @Override
     public boolean addProduit(String nom, double prix, int qte) {
-        return lesProduits.add(new Produit(nom,prix,qte));
+        Produit produit = new Produit(nom,prix,qte);
+        return addProduit(produit);
     }
 
     /**
@@ -36,8 +55,16 @@ public class Catalogue implements I_Catalogue {
      */
     @Override
     public int addProduits(List<I_Produit> l) {
-        lesProduits.addAll(l);
-        return l.size();
+        if( l == null) {
+            return 0;
+        }
+        int count = 0;
+        for (I_Produit p : l) {
+            if( addProduit(p) ) {
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
