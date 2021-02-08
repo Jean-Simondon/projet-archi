@@ -7,6 +7,8 @@ public class Catalogue implements I_Catalogue {
 
     private ArrayList<I_Produit> lesProduits;
 
+    private Catalogue instance;
+
     public Catalogue(){
         lesProduits = new ArrayList<>();
     }
@@ -103,4 +105,11 @@ public class Catalogue implements I_Catalogue {
         message += "Montant total TTC du stock " + getMontantTotalTTC() + "€";
         return message;
     }
+
+
+
+
+
+
 }
+
