@@ -45,7 +45,7 @@ public class Produit implements I_Produit{
 
     @Override
     public String getNom() {
-        return this.nom;
+        return this.nom.strip().replace("\u0009"," ");
     }
 
     @Override
