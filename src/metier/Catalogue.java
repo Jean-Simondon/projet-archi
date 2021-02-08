@@ -15,11 +15,22 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public boolean addProduit(I_Produit produit) {
-        if( produit != null ) {
-            return lesProduits.add(produit);
-        } else {
+        if (produit == null) {
+            return false;
+        } else if ( lesProduits.contains(produit) ) {
             return false;
         }
+
+        for (I_Produit p : lesProduits) {
+            if(p.getNom().equals(produit.getNom())){
+                return false;
+            }
+        }
+
+
+
+        return lesProduits.add(produit);
+
     }
 
     @Override
