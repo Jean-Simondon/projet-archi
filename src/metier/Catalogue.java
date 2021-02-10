@@ -3,6 +3,7 @@ package metier;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -16,9 +17,14 @@ public class Catalogue implements I_Catalogue {
     private ArrayList<I_Produit> lesProduits;
 
     private Catalogue instance;
+    private DecimalFormat df;
 
-    public Catalogue(){
+    public Catalogue() {
         lesProduits = new ArrayList<>();
+        df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
+        df.setDecimalSeparatorAlwaysShown(true);
     }
 
     @Override
@@ -132,13 +138,15 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public String toString() {
-        String message = "";
+        String lastLine = "\n" + "Montant total TTC du stock : " + df.format( getMontantTotalTTC()  )+ " €";
+
+        String body = "";
         for (I_Produit produit : lesProduits) {
-            message += produit.toString();
-            message += "\n";
+            body += produit.toString();
+            body += "\n";
         }
-        message += "Montant total TTC du stock " + getMontantTotalTTC() + "€";
-        return message;
+
+        return body + lastLine;
     }
 
 
