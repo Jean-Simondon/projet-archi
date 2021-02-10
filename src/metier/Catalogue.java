@@ -110,7 +110,7 @@ public class Catalogue implements I_Catalogue {
             montantTotal += produit.getPrixStockTTC();
         }
 
-        return Math.floor(montantTotal * 100) / 100;
+        return Math.ceil(montantTotal * 100) / 100;
 
     }
 
