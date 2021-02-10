@@ -1,9 +1,15 @@
 package metier;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Comparator;
 import java.util.List;
+
+import static java.lang.Math.round;
 
 public class Catalogue implements I_Catalogue {
 
@@ -72,16 +78,29 @@ public class Catalogue implements I_Catalogue {
         if(index == -1 ){
             return false;
         }
-        return this.lesProduits.get(index).ajouter(qteVendue);
+        return this.lesProduits.get(index).enlever(qteVendue);
     }
 
     @Override
     public String[] getNomProduits() {
-        String[] tab = new String[this.lesProduits.size()];
-        for(int i = 0 ; i < this.lesProduits.size() ; i++){
-            tab[i] = this.lesProduits.get(i).getNom();
+        ArrayList<String> noms = new ArrayList<String>();
+        String[] arrayNom = new String[this.lesProduits.size()];
+
+        for (I_Produit lesProduit : this.lesProduits) {
+            noms.add(lesProduit.getNom());
         }
-        return tab;
+        noms.sort(new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                return o1.compareTo(o2);
+            }
+        });
+
+        for (int i = 0 ; i < noms.size() ; i++){
+            arrayNom[i] = noms.get(i);
+        }
+
+        return arrayNom;
     }
 
     @Override
@@ -90,7 +109,9 @@ public class Catalogue implements I_Catalogue {
         for(I_Produit produit : this.lesProduits){
             montantTotal += produit.getPrixStockTTC();
         }
-        return montantTotal;
+
+        return Math.floor(montantTotal * 100) / 100;
+
     }
 
     public int findIndexOfProduct(String nomProduit){
