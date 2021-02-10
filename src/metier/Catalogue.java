@@ -21,6 +21,7 @@ public class Catalogue implements I_Catalogue {
 
     public Catalogue() {
         lesProduits = new ArrayList<>();
+
         df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(2);
@@ -115,9 +116,7 @@ public class Catalogue implements I_Catalogue {
         for(I_Produit produit : this.lesProduits){
             montantTotal += produit.getPrixStockTTC();
         }
-
-        return Math.ceil(montantTotal * 100) / 100;
-
+        return Math.rint(montantTotal * 100) / 100;
     }
 
     public int findIndexOfProduct(String nomProduit){
@@ -143,9 +142,7 @@ public class Catalogue implements I_Catalogue {
         String body = "";
         for (I_Produit produit : lesProduits) {
             body += produit.toString();
-            body += "\n";
         }
-
         return body + lastLine;
     }
 
