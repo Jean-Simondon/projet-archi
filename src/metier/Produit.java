@@ -1,5 +1,8 @@
 package metier;
 
+import dao.ProduitDAO;
+import exception.database.MAJImpossible;
+
 import java.text.DecimalFormat;
 
 public class Produit implements I_Produit{
@@ -31,9 +34,10 @@ public class Produit implements I_Produit{
      * @return true if it's ok, else false if qte is less than 1
      */
     @Override
-    public boolean ajouter(int qteAchetee) {
+    public boolean ajouter(int qteAchetee) throws MAJImpossible {
         if(qteAchetee > 0 ){
             this.quantiteStock += qteAchetee;
+            this.save();
             return true;
         }
         return false;
@@ -44,9 +48,10 @@ public class Produit implements I_Produit{
      * @return true if it's ok, else false if qte is less than 1 or if qte is higher than actual stock
      */
     @Override
-    public boolean enlever(int qteVendue) {
+    public boolean enlever(int qteVendue) throws MAJImpossible {
         if(qteVendue > 0 && qteVendue < getQuantite()){
             this.quantiteStock -= qteVendue;
+            this.save();
             return true;
         }
         return false;
@@ -84,5 +89,12 @@ public class Produit implements I_Produit{
     @Override
     public String toString() {
         return getNom() + " - prix HT : " + df.format( getPrixUnitaireHT() ) + " € - prix TTC : " + df.format(getPrixUnitaireTTC()) + " € - quantité en stock : " + getQuantite() + "\n";
+    }
+
+    @Override
+    public void save() throws MAJImpossible {
+        if(!ProduitDAO.update(this)){
+            throw new MAJImpossible();
+        }
     }
 }

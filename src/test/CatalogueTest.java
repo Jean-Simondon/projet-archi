@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.database.MAJImpossible;
 import metier.Catalogue;
 import metier.I_Catalogue;
 import metier.I_Produit;
@@ -467,7 +468,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testAcheterProduit_existePas() {
+	public void testAcheterProduit_existePas() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 1);
 		cat.addProduit("Treets", 10, 1);
 		cat.addProduit("Raider", 12, 2);
@@ -475,7 +476,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testAcheterProduit_existe() {
+	public void testAcheterProduit_existe() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 1);
 		cat.addProduit("Treets", 10, 1);
 		cat.addProduit("Raider", 12, 2);
@@ -483,7 +484,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testAcheterProduit_quantiteNegative() {
+	public void testAcheterProduit_quantiteNegative() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 1);
 		cat.addProduit("Treets", 10, 1);
 		cat.addProduit("Raider", 12, 2);
@@ -491,7 +492,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testAcheterProduit_quantiteNulle() {
+	public void testAcheterProduit_quantiteNulle() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 1);
 		cat.addProduit("Treets", 10, 1);
 		cat.addProduit("Raider", 12, 2);
@@ -499,7 +500,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testVendreProduit_existePas() {
+	public void testVendreProduit_existePas() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 5);
 		cat.addProduit("Treets", 10, 0);
 		cat.addProduit("Raider", 12, 3);
@@ -507,7 +508,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testVendreProduit_existe() {
+	public void testVendreProduit_existe() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 5);
 		cat.addProduit("Treets", 10, 0);
 		cat.addProduit("Raider", 12, 3);
@@ -515,7 +516,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testVendreProduit_quantiteNegative() {
+	public void testVendreProduit_quantiteNegative() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 5);
 		cat.addProduit("Treets", 10, 0);
 		cat.addProduit("Raider", 12, 3);
@@ -523,7 +524,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testVendreProduit_quantiteNulle() {
+	public void testVendreProduit_quantiteNulle() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 5);
 		cat.addProduit("Treets", 10, 0);
 		cat.addProduit("Raider", 12, 3);
@@ -531,7 +532,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testVendreProduit_stockNul() {
+	public void testVendreProduit_stockNul() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 5);
 		cat.addProduit("Treets", 10, 0);
 		cat.addProduit("Raider", 12, 3);
@@ -539,7 +540,7 @@ public class CatalogueTest {
 	}
 
 	@Test
-	public void testVendreProduit_stockInsuffisant() {
+	public void testVendreProduit_stockInsuffisant() throws MAJImpossible {
 		cat.addProduit("Mars", 10, 5);
 		cat.addProduit("Treets", 10, 0);
 		cat.addProduit("Raider", 12, 3);
