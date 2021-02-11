@@ -2,6 +2,7 @@ package dao;
 
 import metier.Produit;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,11 +11,23 @@ public class ProduitDAO extends DAOManager {
 
     public static boolean create(String nom, double prixUnitaireHT, int qte)
     {
-        // CALL insertClient ('Terieur', 'Alain', 'Montpellier');
+        try {
+            CallableStatement cst = cn.prepareCall("{CALL insertProduit(?, ?, ?)}");
+            cst.setString(1, nom);
+            cst.setDouble(2, prixUnitaireHT);
+            cst.setInt(3, qte);
+            cst.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
-    //    String nom , double prixUnitaireHT, int qte
+    public static boolean create(Produit p)
+    {
+        return create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
+    }
+
     public static Produit read(int id)
     {
 
