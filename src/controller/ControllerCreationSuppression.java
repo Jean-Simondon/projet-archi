@@ -1,4 +1,28 @@
 package controller;
 
-public class ControllerCreationSuppression {
+import metier.Produit;
+
+public class ControllerCreationSuppression extends ControllerManager{
+
+    public static String[] getNomsProduits()
+    {
+        return ControllerAchatVente.cat.getNomProduits();
+    }
+
+    public static boolean creerProduit(Produit produit)
+    {
+        return cat.addProduit(produit);
+    }
+
+    public static boolean creerProduit(String nom, double prix, int qte )
+    {
+        return cat.addProduit(nom,prix,qte);
+    }
+
+    public static boolean supprimerProduit(String nomProduit)
+    {
+        return cat.removeProduit(nomProduit);
+    }
+
+
 }
