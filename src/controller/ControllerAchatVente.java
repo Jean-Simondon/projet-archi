@@ -2,9 +2,7 @@ package controller;
 
 import metier.Catalogue;
 
-public class ControllerAchatVente {
-
-    private static Catalogue cat = new Catalogue();
+public class ControllerAchatVente extends ControllerManager {
 
     public static String[] getNomsProduits()
     {
