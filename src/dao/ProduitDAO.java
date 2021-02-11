@@ -9,6 +9,13 @@ import java.util.ArrayList;
 
 public class ProduitDAO extends DAOManager {
 
+    /**
+     *
+     * @param nom
+     * @param prixUnitaireHT
+     * @param qte
+     * @return vrai si le produit a bien été crée
+     */
     public static boolean create(String nom, double prixUnitaireHT, int qte)
     {
         try {
@@ -23,11 +30,21 @@ public class ProduitDAO extends DAOManager {
         return true;
     }
 
+    /**
+     *
+     * @param p
+     * @return vrai si le produit a bien été crée
+     */
     public static boolean create(Produit p)
     {
         return create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
 
+    /**
+     * renvoie un produit en particulier
+     * @param id
+     * @return Produit
+     */
     public static Produit read(int id)
     {
         try {
@@ -46,6 +63,10 @@ public class ProduitDAO extends DAOManager {
         return hydrateProduit();
     }
 
+    /**
+     * Renvoie tous les produits de la base de données
+     * @return ArrayListe<Produit>
+     */
     public static ArrayList<Produit> readAll()
     {
         try {
@@ -75,11 +96,18 @@ public class ProduitDAO extends DAOManager {
         return produits;
     }
 
+
     public static boolean update(Produit p)
     {
-
-
-
+        try {
+            pst = cn.prepareStatement("UPDATE produit SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst.setString(1, p.getNom());
+            pst.setDouble(2, p.getPrixUnitaireHT());
+            pst.setInt(3, p.getQuantite());
+            pst.setString(4, p.getId());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return true;
     }
@@ -90,10 +118,12 @@ public class ProduitDAO extends DAOManager {
     }
 
     public static Produit hydrateProduit() {
+        int id = -1;
         String nom = null;
         double prixUnitaireHT = -1;
         int qte = -1;
         try{
+            id = rs.getInt("id");
             nom = rs.getString("nom");
             prixUnitaireHT = rs.getDouble("prixUnitaireHT");
             if( rs.wasNull() ) {
