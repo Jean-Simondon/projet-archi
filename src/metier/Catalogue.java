@@ -1,5 +1,7 @@
 package metier;
 
+import exception.database.MAJImpossible;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
@@ -71,7 +73,7 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean acheterStock(String nomProduit, int qteAchetee) {
+    public boolean acheterStock(String nomProduit, int qteAchetee) throws MAJImpossible {
         int index = this.findIndexOfProduct(nomProduit);
         if(index == -1 ){
             return false;
@@ -80,7 +82,7 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean vendreStock(String nomProduit, int qteVendue) {
+    public boolean vendreStock(String nomProduit, int qteVendue) throws MAJImpossible {
         int index = this.findIndexOfProduct(nomProduit);
         if(index == -1 ){
             return false;
@@ -90,7 +92,7 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public String[] getNomProduits() {
-        ArrayList<String> noms = new ArrayList<String>();
+        ArrayList<String> noms = new ArrayList<>();
         String[] arrayNom = new String[this.lesProduits.size()];
 
         for (I_Produit lesProduit : this.lesProduits) {
@@ -139,9 +141,9 @@ public class Catalogue implements I_Catalogue {
     public String toString() {
         String lastLine = "\n" + "Montant total TTC du stock : " + df.format( getMontantTotalTTC()  )+ " €";
 
-        String body = "";
+        StringBuilder body = new StringBuilder();
         for (I_Produit produit : lesProduits) {
-            body += produit.toString();
+            body.append(produit.toString());
         }
         return body + lastLine;
     }
