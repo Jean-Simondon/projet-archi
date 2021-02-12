@@ -1,9 +1,12 @@
 package controller;
 
 import metier.Catalogue;
+import metier.I_Catalogue;
+
+import java.awt.color.ICC_ColorSpace;
 
 public class ControllerManager {
 
-    protected static Catalogue cat = new Catalogue();
+    protected static I_Catalogue cat = new Catalogue();
 
 }
