@@ -30,7 +30,11 @@ public class Produit implements I_Produit {
      */
     public Produit(int id, String nom , double prixUnitaireHT, int qte)
     {
-        this.id = id;
+        if( id < 0) {
+            this.id = ProduitDAO.create(nom, prixUnitaireHT, qte);
+        } else {
+            this.id = id;
+        }
         this.quantiteStock = qte;
         this.nom = nom.trim();
         this.prixUnitaireHT = prixUnitaireHT;
@@ -47,13 +51,7 @@ public class Produit implements I_Produit {
      */
     public Produit(String nom , double prixUnitaireHT, int qte)
     {
-        this.id = ProduitDAO.create(nom, prixUnitaireHT, qte);
-        this.quantiteStock = qte;
-        this.nom = nom.trim();
-        this.prixUnitaireHT = prixUnitaireHT;
-        this.tauxTVA = 0.2;
-
-        initialization();
+        this(-1, nom, prixUnitaireHT, qte);
     }
 
     private void initialization()
