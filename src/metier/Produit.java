@@ -17,9 +17,9 @@ public class Produit implements I_Produit {
 
     private double tauxTVA;
 
-    private DecimalFormat df;
+    private DecimalFormat df; // utile à former les sorties de chifres en String à 2 décmal après la virgule
 
-    private ProduitDAO produitDAO;
+    private ProduitDAO produitDAO; // CRUD vers la BDD
 
     /**
      * Constructeur avec id, donc déjà présent en BDD
@@ -36,10 +36,7 @@ public class Produit implements I_Produit {
         this.prixUnitaireHT = prixUnitaireHT;
         this.tauxTVA = 0.2;
 
-        df = new DecimalFormat();
-        df.setMaximumFractionDigits(2);
-        df.setMinimumFractionDigits(2);
-        df.setDecimalSeparatorAlwaysShown(true);
+        initialization();
     }
 
     /**
@@ -56,6 +53,11 @@ public class Produit implements I_Produit {
         this.prixUnitaireHT = prixUnitaireHT;
         this.tauxTVA = 0.2;
 
+        initialization();
+    }
+
+    private void initialization()
+    {
         df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(2);

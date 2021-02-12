@@ -20,7 +20,7 @@ public class ProduitDAO extends DAOManager {
     public static int create(String nom, double prixUnitaireHT, int qte) {
         int id = -1;
         try {
-            CallableStatement cst = cn.prepareCall("{?= call insertProduit(?,?, ?)}"); // appel de fonction
+            CallableStatement cst = cn.prepareCall("{ ? = call insertProduit( ?, ?, ?)}"); // appel de fonction
             cst.setString(2,nom);
             cst.setDouble(3,prixUnitaireHT);
             cst.setInt(3,qte);
@@ -85,19 +85,19 @@ public class ProduitDAO extends DAOManager {
             e.printStackTrace();
         }
 
-        ArrayList<Produit> produits = new ArrayList<>();
+        ArrayList<Produit> listeProduits = new ArrayList<>();
 
         try {
             int nbRow = rs.getRow();
             for(int i = 0; i < nbRow; i++) {
-                produits.add(hydrateProduit());
+                listeProduits.add(hydrateProduit());
                 rs.next();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return produits;
+        return listeProduits;
     }
 
 
@@ -116,9 +116,20 @@ public class ProduitDAO extends DAOManager {
         return true;
     }
 
-    public static boolean delete()
+    public static boolean delete(int id)
     {
+        try {
+            pst = cn.prepareStatement("DELETE FROM produit WHERE id = ?");
+            pst.setInt(1, id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return true;
+    }
+
+    public static boolean delete(Produit p)
+    {
+        return delete(p.getId());
     }
 
     public static Produit hydrateProduit() {
