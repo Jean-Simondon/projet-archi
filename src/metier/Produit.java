@@ -5,7 +5,9 @@ import exception.database.MAJImpossible;
 
 import java.text.DecimalFormat;
 
-public class Produit implements I_Produit{
+public class Produit implements I_Produit {
+
+    private final int id;
 
     private int quantiteStock;
 
@@ -17,7 +19,38 @@ public class Produit implements I_Produit{
 
     private DecimalFormat df;
 
-    public Produit(String nom , double prixUnitaireHT, int qte){
+    private ProduitDAO produitDAO;
+
+    /**
+     * Constructeur avec id, donc déjà présent en BDD
+     * @param id
+     * @param nom
+     * @param prixUnitaireHT
+     * @param qte
+     */
+    public Produit(int id, String nom , double prixUnitaireHT, int qte)
+    {
+        this.id = id;
+        this.quantiteStock = qte;
+        this.nom = nom.trim();
+        this.prixUnitaireHT = prixUnitaireHT;
+        this.tauxTVA = 0.2;
+
+        df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+        df.setMinimumFractionDigits(2);
+        df.setDecimalSeparatorAlwaysShown(true);
+    }
+
+    /**
+     * Constructeur lorsque l'on ne fournit pas l'ID, donc que le produit n'existe pas dans la BDD, alors on le crée avant d'instancier l'objet
+     * @param nom
+     * @param prixUnitaireHT
+     * @param qte
+     */
+    public Produit(String nom , double prixUnitaireHT, int qte)
+    {
+        this.id = ProduitDAO.create(nom, prixUnitaireHT, qte);
         this.quantiteStock = qte;
         this.nom = nom.trim();
         this.prixUnitaireHT = prixUnitaireHT;
@@ -84,6 +117,10 @@ public class Produit implements I_Produit{
             somme += this.getPrixUnitaireTTC();
         }
         return somme;
+    }
+
+    public int getId() {
+        return id;
     }
 
     @Override

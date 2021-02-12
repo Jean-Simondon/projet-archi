@@ -5,6 +5,7 @@ import metier.Produit;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 public class ProduitDAO extends DAOManager {
@@ -16,18 +17,21 @@ public class ProduitDAO extends DAOManager {
      * @param qte
      * @return vrai si le produit a bien été crée
      */
-    public static boolean create(String nom, double prixUnitaireHT, int qte)
-    {
+    public static int create(String nom, double prixUnitaireHT, int qte) {
+        int id = -1;
         try {
-            CallableStatement cst = cn.prepareCall("{CALL insertProduit(?, ?, ?)}");
-            cst.setString(1, nom);
-            cst.setDouble(2, prixUnitaireHT);
-            cst.setInt(3, qte);
+            CallableStatement cst = cn.prepareCall("{?= call insertProduit(?,?, ?)}"); // appel de fonction
+            cst.setString(2,nom);
+            cst.setDouble(3,prixUnitaireHT);
+            cst.setInt(3,qte);
+            cst.registerOutParameter(1, Types.INTEGER);
             cst.execute();
+            id = cst.getInt(1);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
+        return id;
     }
 
     /**
@@ -35,7 +39,7 @@ public class ProduitDAO extends DAOManager {
      * @param p
      * @return vrai si le produit a bien été crée
      */
-    public static boolean create(Produit p)
+    public static int create(Produit p)
     {
         return create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
@@ -104,7 +108,7 @@ public class ProduitDAO extends DAOManager {
             pst.setString(1, p.getNom());
             pst.setDouble(2, p.getPrixUnitaireHT());
             pst.setInt(3, p.getQuantite());
-            pst.setString(4, p.getId());
+            pst.setInt(4, p.getId());
         } catch (SQLException e) {
             e.printStackTrace();
         }
