@@ -1,5 +1,7 @@
 package presentation;
 
+import controller.ControllerCreationSuppression;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -48,7 +50,9 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		this.dispose();
+		if (e.getSource() == btValider){
+			ControllerCreationSuppression.creerProduit(txtNom.getText(),Double.parseDouble(txtPrixHT.getText()),Integer.parseInt(txtQte.getText()));
+		}
 	}
 
 }

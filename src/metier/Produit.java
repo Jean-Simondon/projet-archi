@@ -17,16 +17,16 @@ public class Produit implements I_Produit {
 
     private double tauxTVA;
 
-    private DecimalFormat df; // utile à former les sorties de chifres en String à 2 décmal après la virgule
+    static private DecimalFormat df; // utile à former les sorties de chifres en String à 2 décmal après la virgule
 
     private ProduitDAO produitDAO; // CRUD vers la BDD
 
     /**
      * Constructeur avec id, donc déjà présent en BDD
-     * @param id
-     * @param nom
-     * @param prixUnitaireHT
-     * @param qte
+     * @param id l'id
+     * @param nom le nom
+     * @param prixUnitaireHT le prix HT
+     * @param qte la quantité
      */
     public Produit(int id, String nom , double prixUnitaireHT, int qte)
     {
@@ -41,20 +41,27 @@ public class Produit implements I_Produit {
         this.quantiteStock = qte;
         this.tauxTVA = 0.2;
 
-        initialization();
+        if(df == null){
+            initialization();
+        }
+
+
     }
 
     /**
      * Constructeur lorsque l'on ne fournit pas l'ID, donc que le produit n'existe pas dans la BDD, alors on le crée avant d'instancier l'objet
-     * @param nom
-     * @param prixUnitaireHT
-     * @param qte
+     * @param nom le nom du produit
+     * @param prixUnitaireHT le prix
+     * @param qte la quantité
      */
     public Produit(String nom , double prixUnitaireHT, int qte)
     {
         this(-1, nom, prixUnitaireHT, qte);
     }
 
+    /**
+     * Initialize le DecimalFormat de la classe Produit
+     */
     private void initialization()
     {
         df = new DecimalFormat();

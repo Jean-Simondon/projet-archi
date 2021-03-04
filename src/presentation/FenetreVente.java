@@ -1,5 +1,7 @@
 package presentation;
 
+import controller.ControllerAchatVente;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -19,7 +21,7 @@ public class FenetreVente extends JFrame implements ActionListener {
 		txtQuantite = new JTextField(5);
 		txtQuantite.setText("0");
 
-		combo = new JComboBox<String>(lesProduits);
+		combo = new JComboBox<>(lesProduits);
 		combo.setPreferredSize(new Dimension(100, 20));
 		contentPane.add(new JLabel("Produit"));
 		contentPane.add(combo);
@@ -32,7 +34,9 @@ public class FenetreVente extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		this.dispose();
+		if(e.getSource() == btVente){
+			ControllerAchatVente.vendreProduit((String)combo.getSelectedItem(),Integer.parseInt(txtQuantite.getText()));
+		}
 	}
 
 }

@@ -19,11 +19,11 @@ public class Catalogue implements I_Catalogue {
     private ArrayList<I_Produit> lesProduits;
 
     private Catalogue instance;
-    private DecimalFormat df;
+
+    static private DecimalFormat df;
 
     public Catalogue() {
         lesProduits = new ArrayList<>();
-
         df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(2);
@@ -151,8 +151,8 @@ public class Catalogue implements I_Catalogue {
 
     /**
      * vérifie si un produit remplie les conditions pour être ajouté au catalogue
-     * @param produit
-     * @return
+     * @param produit les produits
+     * @return Bolean estValide
      */
     public boolean isValidProduit(I_Produit produit) {
         if (produit == null) {

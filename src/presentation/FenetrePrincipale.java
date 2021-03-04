@@ -74,26 +74,31 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 /* M�me chose pour tabCategories (partie 4) */ 		
 //		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
-		if (e.getSource() == btAfficher)
-//			String affichage = ControllerEtatStock.getInformationsProduit();
-//			new FenetreAffichage("ajourd'hui nous allons faire de la programmation en 5 couches");
-		if (e.getSource() == btNouveauProduit)
+		if (e.getSource() == btAfficher){
+			String affichage = ControllerEtatStock.getInformationsProduit();
+			new FenetreAffichage(affichage);
+		}
+		if (e.getSource() == btNouveauProduit) {
 //			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();
-		if (e.getSource() == btSupprimerProduit)
+		}
+		if (e.getSource() == btSupprimerProduit) {
 			new FenetreSuppressionProduit(tabProduits);
-//		if (e.getSource() == btNouvelleCategorie)
-//			new FenetreNouvelleCategorie();
-//		if (e.getSource() == btSupprimerCategorie)
-//			new FenetreSuppressionCategorie(tabCategories);
-		if (e.getSource() == btAchat)
+		}
+//		if (e.getSource() == btNouvelleCategorie){
+//			new FenetreNouvelleCategorie();}
+//		if (e.getSource() == btSupprimerCategorie){
+//			new FenetreSuppressionCategorie(tabCategories);}
+		if (e.getSource() == btAchat) {
 			new FenetreAchat(tabProduits);
-		if (e.getSource() == btVente)
+		}
+		if (e.getSource() == btVente) {
 			new FenetreVente(tabProduits);
+		}
 		if (e.getSource() == btQuitter){
 			System.out.println("Au revoir");
 			System.exit(0);
-		}	
+		}
 	}
 
 	public void windowClosing(WindowEvent arg0) {

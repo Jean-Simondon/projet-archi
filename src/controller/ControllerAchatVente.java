@@ -7,12 +7,12 @@ public class ControllerAchatVente extends ControllerManager {
 
     public static String[] getNomsProduits()
     {
-        return ControllerAchatVente.cat.getNomProduits();
+        return cat.getNomProduits();
     }
 
     public static boolean acheterProduit(String nomProduit, int qteAchetee) {
         try {
-            return ControllerAchatVente.cat.acheterStock(nomProduit, qteAchetee);
+            return cat.acheterStock(nomProduit, qteAchetee);
 
         }catch (MAJImpossible e){
             //TODO trouver quoi faire quand une exception est levée du à une propagation des changements de valeur impossible
@@ -22,7 +22,7 @@ public class ControllerAchatVente extends ControllerManager {
 
     public static boolean vendreProduit(String nomProduit, int qteAchetee) {
         try {
-            return ControllerAchatVente.cat.vendreStock(nomProduit, qteAchetee);
+            return cat.vendreStock(nomProduit, qteAchetee);
         }catch (MAJImpossible e ){
             //TODO trouver quoi faire quand une exception est levée du à une propagation des changements de valeur impossible
             return false;

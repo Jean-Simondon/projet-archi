@@ -7,7 +7,7 @@ public class ControllerCreationSuppression extends ControllerManager {
     }
 
     public static String[] getNomsProduits() {
-        return ControllerAchatVente.cat.getNomProduits();
+        return cat.getNomProduits();
     }
 
     public static boolean creerProduit(Produit produit) {
