@@ -31,7 +31,8 @@ public class Produit implements I_Produit {
     public Produit(int id, String nom , double prixUnitaireHT, int qte)
     {
         if( id < 0) {
-            this.id = ProduitDAO.create(nom, prixUnitaireHT, qte);
+//            this.id = ProduitDAO.create(nom, prixUnitaireHT, qte);
+            this.id = -1;
         } else {
             this.id = id;
         }
@@ -70,7 +71,7 @@ public class Produit implements I_Produit {
     public boolean ajouter(int qteAchetee) throws MAJImpossible {
         if(qteAchetee > 0 ){
             this.quantiteStock += qteAchetee;
-            this.save();
+//            this.save(); // A décommenter quand la BDD sera dispo
             return true;
         }
         return false;
@@ -84,7 +85,7 @@ public class Produit implements I_Produit {
     public boolean enlever(int qteVendue) throws MAJImpossible {
         if(qteVendue > 0 && qteVendue < getQuantite()){
             this.quantiteStock -= qteVendue;
-            this.save();
+//            this.save(); // A décommenter quand la BDD sera dispo
             return true;
         }
         return false;
