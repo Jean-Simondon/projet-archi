@@ -35,9 +35,9 @@ public class Produit implements I_Produit {
         } else {
             this.id = id;
         }
-        this.quantiteStock = qte;
         this.nom = nom.trim();
         this.prixUnitaireHT = prixUnitaireHT;
+        this.quantiteStock = qte;
         this.tauxTVA = 0.2;
 
         initialization();

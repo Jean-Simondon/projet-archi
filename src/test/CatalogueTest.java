@@ -38,6 +38,7 @@ public class CatalogueTest {
 	@Test
 	public void testAddProduitIProduit_unProduit() {
 		I_Produit p1 = createProduit("Mars", 10, 1);
+		System.out.println(p1);
 		assertTrue("ajout un produit", cat.addProduit(p1));
 	}
 
