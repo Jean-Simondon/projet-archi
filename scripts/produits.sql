@@ -1,6 +1,6 @@
 DROP TABLE Produits;
 
-CREATE TABLE Produits(id NUMBER, nom VARCHAR(50), qte NUMBER, prixUnitaireHT DOUBLE PRECISION,
+CREATE OR REPLACE TABLE Produits(id NUMBER, nom VARCHAR(50), qte NUMBER, prixUnitaireHT DOUBLE PRECISION,
                       CONSTRAINT pk_produit PRIMARY KEY (id),
                       CONSTRAINT nn_nom CHECK (nom IS NOT NULL),
                       CONSTRAINT nn_prixUnitaireHT CHECK (prixUnitaireHT IS NOT NULL),
