@@ -8,8 +8,8 @@ import org.jdom.*;
 import org.jdom.input.*;
 import org.jdom.output.*;
 
-import javax.swing.text.Document;
-import javax.swing.text.Element;
+import metier.I_Produit;
+import metier.Produit;
 
 
 public class ProduitDAO_XML {
