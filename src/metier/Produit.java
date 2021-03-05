@@ -1,7 +1,9 @@
 package metier;
 
-import dao.ProduitDAO;
+import dao.ProduitDAO_I;
+import dao.DAOFactory;
 import exception.database.MAJImpossible;
+import exception.database.UpdateException;
 
 import java.text.DecimalFormat;
 
@@ -19,7 +21,7 @@ public class Produit implements I_Produit {
 
     static private DecimalFormat df; // utile à former les sorties de chifres en String à 2 décmal après la virgule
 
-    private ProduitDAO produitDAO; // CRUD vers la BDD
+    private static ProduitDAO_I produitDAO; // CRUD vers la BDD
 
     /**
      * Constructeur avec id, donc déjà présent en BDD
@@ -43,6 +45,9 @@ public class Produit implements I_Produit {
 
         if(df == null){
             initialization();
+        }
+        if(produitDAO == null){
+            produitDAO = DAOFactory.getInstance();
         }
 
 
@@ -137,9 +142,8 @@ public class Produit implements I_Produit {
     }
 
     @Override
-    public void save() throws MAJImpossible {
-        if(!ProduitDAO.update(this)){
-            throw new MAJImpossible();
-        }
+    public void save() throws UpdateException {
+        produitDAO.update(this);
+
     }
 }

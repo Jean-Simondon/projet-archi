@@ -1,23 +1,24 @@
 package dao;
 
+import exception.database.DeleteException;
+import exception.database.HydrateException;
+import exception.database.ReadException;
+import exception.database.UpdateException;
 import metier.Produit;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.ArrayList;
 
-public class ProduitDAO extends DAOManager {
+public class ProduitDAO extends DAOManager implements ProduitDAO_I {
 
     /**
      *
-     * @param nom
-     * @param prixUnitaireHT
-     * @param qte
+     * @param nom Le nom du produit
+     * @param prixUnitaireHT Le prix du produit
+     * @param qte La quantité de produit
      * @return vrai si le produit a bien été crée
      */
-    public static int create(String nom, double prixUnitaireHT, int qte) {
+    public int create(String nom, double prixUnitaireHT, int qte) {
         int id = -1;
         try {
             CallableStatement cst = cn.prepareCall("{ ? = call insertProduit( ?, ?, ?)}"); // appel de fonction
@@ -36,103 +37,93 @@ public class ProduitDAO extends DAOManager {
 
     /**
      *
-     * @param p
+     * @param p le produit
      * @return vrai si le produit a bien été crée
      */
-    public static int create(Produit p)
+    public int create(Produit p)
     {
         return create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
 
     /**
      * renvoie un produit en particulier
-     * @param id
+     * @param id l'id produit
      * @return Produit
      */
-    public static Produit read(int id)
-    {
-        try {
+    public Produit read(int id) throws ReadException, HydrateException {
+        try{
             pst = cn.prepareStatement("SELECT * FROM produit WHERE ID = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setInt(1, id);
-        } catch (SQLException e) {
-            e.printStackTrace();
+            ResultSet rs = pst.executeQuery();
+            return hydrateProduit();
+        }catch (SQLException e ){
+            throw new ReadException();
         }
 
-        try {
-            rs = pst.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return hydrateProduit();
     }
 
     /**
      * Renvoie tous les produits de la base de données
      * @return ArrayListe<Produit>
      */
-    public static ArrayList<Produit> readAll()
-    {
+    public ArrayList<Produit> readAll() throws ReadException {
         try {
             pst = cn.prepareStatement("SELECT * FROM produit", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        try {
             rs = pst.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
-        ArrayList<Produit> listeProduits = new ArrayList<>();
+            ArrayList<Produit> listeProduits = new ArrayList<>();
 
-        try {
             int nbRow = rs.getRow();
-            for(int i = 0; i < nbRow; i++) {
+            for (int i = 0; i < nbRow; i++) {
                 listeProduits.add(hydrateProduit());
                 rs.next();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+            return listeProduits;
+        }catch (SQLException | HydrateException e){
+            throw new ReadException();
         }
 
-        return listeProduits;
+
     }
 
-
-    public static boolean update(Produit p)
-    {
+    /**
+     * Mets à jour un produit grâce à un Objet produit
+     * @param p le produit
+     * @throws UpdateException Si quelque chose s'est mal passé pendant la mise à jour
+     */
+    public void update(Produit p) throws UpdateException {
         try {
-            pst = cn.prepareStatement("UPDATE produit SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst = DAOManager.cn.prepareStatement("UPDATE produit SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setString(1, p.getNom());
             pst.setDouble(2, p.getPrixUnitaireHT());
             pst.setInt(3, p.getQuantite());
             pst.setInt(4, p.getId());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new UpdateException();
         }
 
-        return true;
     }
 
-    public static boolean delete(int id)
-    {
+    public boolean delete(int id) throws DeleteException {
         try {
-            pst = cn.prepareStatement("DELETE FROM produit WHERE id = ?");
+            pst = DAOManager.cn.prepareStatement("DELETE FROM produit WHERE id = ?");
             pst.setInt(1, id);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DeleteException();
         }
         return true;
     }
 
-    public static boolean delete(Produit p)
-    {
+    public boolean delete(Produit p) throws DeleteException {
         return delete(p.getId());
     }
 
-    public static Produit hydrateProduit() {
+    /**
+     * Utilise le ResultSet pour hydrater les données renvoyées par la base de donnée et renvoyer un objet Produit
+     * @return le Produit
+     * @throws HydrateException Si l'hydratation est impossible
+     */
+    public Produit hydrateProduit() throws HydrateException {
         int id = -1;
         String nom = null;
         double prixUnitaireHT = -1;
@@ -149,7 +140,7 @@ public class ProduitDAO extends DAOManager {
                 qte = -1;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           throw new HydrateException();
         }
         return new Produit(nom, prixUnitaireHT, qte);
     }
