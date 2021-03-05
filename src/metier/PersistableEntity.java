@@ -1,6 +1,7 @@
 package metier;
 
 import exception.database.MAJImpossible;
+import exception.database.UpdateException;
 
 /**
  * A persistable entity have a method save().
@@ -8,5 +9,5 @@ import exception.database.MAJImpossible;
  */
 public interface PersistableEntity {
 
-    void save() throws MAJImpossible;
+    void save() throws UpdateException;
 }
