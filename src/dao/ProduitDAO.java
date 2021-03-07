@@ -4,12 +4,15 @@ import exception.database.DeleteException;
 import exception.database.HydrateException;
 import exception.database.ReadException;
 import exception.database.UpdateException;
+import metier.I_Produit;
 import metier.Produit;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProduitDAO extends DAOManager implements ProduitDAO_I {
+
 
     /**
      *
@@ -40,7 +43,7 @@ public class ProduitDAO extends DAOManager implements ProduitDAO_I {
      * @param p le produit
      * @return vrai si le produit a bien été crée
      */
-    public int create(Produit p)
+    public int create(I_Produit p)
     {
         return create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
@@ -50,7 +53,7 @@ public class ProduitDAO extends DAOManager implements ProduitDAO_I {
      * @param id l'id produit
      * @return Produit
      */
-    public Produit read(int id) throws ReadException, HydrateException {
+    public I_Produit read(int id) throws ReadException, HydrateException {
         try{
             pst = cn.prepareStatement("SELECT * FROM produit WHERE ID = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setInt(1, id);
@@ -62,16 +65,27 @@ public class ProduitDAO extends DAOManager implements ProduitDAO_I {
 
     }
 
+    public I_Produit readByName(String name) throws ReadException,HydrateException {
+        try{
+            pst = cn.prepareStatement("SELECT * FROM produit WHERE NOM = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst.setString(1, name);
+            ResultSet rs = pst.executeQuery();
+            return hydrateProduit();
+        }catch (SQLException e ){
+            throw new ReadException();
+        }
+    }
+
     /**
      * Renvoie tous les produits de la base de données
      * @return ArrayListe<Produit>
      */
-    public ArrayList<Produit> readAll() throws ReadException {
+    public List<I_Produit> readAll() throws ReadException {
         try {
             pst = cn.prepareStatement("SELECT * FROM produit", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs = pst.executeQuery();
 
-            ArrayList<Produit> listeProduits = new ArrayList<>();
+            List<I_Produit> listeProduits = new ArrayList<>();
 
             int nbRow = rs.getRow();
             for (int i = 0; i < nbRow; i++) {
@@ -91,7 +105,7 @@ public class ProduitDAO extends DAOManager implements ProduitDAO_I {
      * @param p le produit
      * @throws UpdateException Si quelque chose s'est mal passé pendant la mise à jour
      */
-    public void update(Produit p) throws UpdateException {
+    public void update(I_Produit p) throws UpdateException {
         try {
             pst = DAOManager.cn.prepareStatement("UPDATE produit SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setString(1, p.getNom());
@@ -114,7 +128,7 @@ public class ProduitDAO extends DAOManager implements ProduitDAO_I {
         return true;
     }
 
-    public boolean delete(Produit p) throws DeleteException {
+    public boolean delete(I_Produit p) throws DeleteException {
         return delete(p.getId());
     }
 
@@ -123,7 +137,7 @@ public class ProduitDAO extends DAOManager implements ProduitDAO_I {
      * @return le Produit
      * @throws HydrateException Si l'hydratation est impossible
      */
-    public Produit hydrateProduit() throws HydrateException {
+    public I_Produit hydrateProduit() throws HydrateException {
         int id = -1;
         String nom = null;
         double prixUnitaireHT = -1;
