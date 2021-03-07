@@ -11,6 +11,7 @@ int getQuantite();
 double getPrixUnitaireHT();
 double getPrixUnitaireTTC();
 double getPrixStockTTC();
+int getId();
 String toString();
 
 }

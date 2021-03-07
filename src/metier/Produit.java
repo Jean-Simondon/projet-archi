@@ -1,7 +1,9 @@
 package metier;
 
-import dao.ProduitDAO;
+import dao.ProduitDAO_I;
+import dao.DAOFactory;
 import exception.database.MAJImpossible;
+import exception.database.UpdateException;
 
 import java.text.DecimalFormat;
 
@@ -9,9 +11,9 @@ public class Produit implements I_Produit {
 
     private static final String TAG = "Produit";
 
-    private int quantiteStock;
+    private final int id;
 
-    private int id;
+    private int quantiteStock;
 
     private String nom;
 
@@ -21,10 +23,11 @@ public class Produit implements I_Produit {
 
     static private DecimalFormat df; // utile à former les sorties de chifres en String à 2 décmal après la virgule
 
-    private ProduitDAO produitDAO; // CRUD vers la BDD
+    private static ProduitDAO_I produitDAO; // CRUD vers la BDD
 
     /**
      * Constructeur avec id, donc déjà présent en BDD
+     * @param id l'id
      * @param nom le nom
      * @param prixUnitaireHT le prix HT
      * @param qte la quantité
@@ -36,7 +39,6 @@ public class Produit implements I_Produit {
         } else {
             this.id = id;
         }
-
         this.nom = nom.trim();
         this.prixUnitaireHT = prixUnitaireHT;
         this.quantiteStock = qte;
@@ -45,9 +47,21 @@ public class Produit implements I_Produit {
         if ( df == null ) {
             initialization();
         }
+        if( produitDAO == null ){
+            produitDAO = DAOFactory.getInstance();
+        }
+
+
     }
 
-    public Produit(String nom, double prixUnitaireHT, int qte) {
+    /**
+     * Constructeur lorsque l'on ne fournit pas l'ID, donc que le produit n'existe pas dans la BDD, alors on le crée avant d'instancier l'objet
+     * @param nom le nom du produit
+     * @param prixUnitaireHT le prix
+     * @param qte la quantité
+     */
+    public Produit(String nom , double prixUnitaireHT, int qte)
+    {
         this(-1, nom, prixUnitaireHT, qte);
     }
 
@@ -119,15 +133,18 @@ public class Produit implements I_Produit {
         return somme;
     }
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return getNom() + " - prix HT : " + df.format( getPrixUnitaireHT() ) + " € - prix TTC : " + df.format(getPrixUnitaireTTC()) + " € - quantité en stock : " + getQuantite() + "\n";
     }
 
     @Override
-    public void save() throws MAJImpossible {
-        if(!ProduitDAO.update(this)){
-            throw new MAJImpossible();
-        }
+    public void save() throws UpdateException {
+        produitDAO.update(this);
+
     }
 }
