@@ -31,13 +31,11 @@ public class DAOManager {
             e.printStackTrace();
         }
 
-        System.out.println(TAG + " : fin fetch");
-
     }
 
     public static void deconnexion()
     {
-        System.out.println(TAG + " : deconnexion");
+        System.out.println(TAG + " : deconnexionDB");
 
         try {
             rs.close();

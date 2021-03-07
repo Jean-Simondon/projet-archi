@@ -1,29 +1,31 @@
 package metier;
 
-import dao.ProduitDAO_I;
+import dao.I_ProduitDAO;
 import dao.DAOFactory;
 import exception.database.MAJImpossible;
 import exception.database.UpdateException;
+import exception.product.ProductException;
 
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 
 public class Produit implements I_Produit {
 
     private static final String TAG = "Produit";
 
-    private final int id;
-
-    private int quantiteStock;
+    private final int id; // identifiant donné par la base de données
 
     private String nom;
 
     private double prixUnitaireHT;
 
-    private double tauxTVA;
+    private int quantiteStock;
+
+    private double tauxTVA = 0.2;
 
     static private DecimalFormat df; // utile à former les sorties de chifres en String à 2 décmal après la virgule
 
-    private static ProduitDAO_I produitDAO; // CRUD vers la BDD
+    private static I_ProduitDAO produitDAO; // CRUD vers la BDD, persistance des données
 
     /**
      * Constructeur avec id, donc déjà présent en BDD
@@ -32,17 +34,15 @@ public class Produit implements I_Produit {
      * @param prixUnitaireHT le prix HT
      * @param qte la quantité
      */
-    public Produit(int id, String nom , double prixUnitaireHT, int qte)
-    {
+    public Produit(int id, String nom , double prixUnitaireHT, int qte) throws ProductException {
         if( id < 0 ) {
-            ProduitDAO.create(nom, prixUnitaireHT, qte);
+            this.id = DAOFactory.getInstance().create(nom, prixUnitaireHT, qte);
         } else {
             this.id = id;
         }
         this.nom = nom.trim();
         this.prixUnitaireHT = prixUnitaireHT;
         this.quantiteStock = qte;
-        this.tauxTVA = 0.2;
 
         if ( df == null ) {
             initialization();
@@ -50,7 +50,6 @@ public class Produit implements I_Produit {
         if( produitDAO == null ){
             produitDAO = DAOFactory.getInstance();
         }
-
 
     }
 
@@ -60,8 +59,7 @@ public class Produit implements I_Produit {
      * @param prixUnitaireHT le prix
      * @param qte la quantité
      */
-    public Produit(String nom , double prixUnitaireHT, int qte)
-    {
+    public Produit(String nom , double prixUnitaireHT, int qte) throws ProductException {
         this(-1, nom, prixUnitaireHT, qte);
     }
 
@@ -143,7 +141,7 @@ public class Produit implements I_Produit {
     }
 
     @Override
-    public void save() throws UpdateException {
+    public void save() throws UpdateException, SQLException {
         produitDAO.update(this);
 
     }

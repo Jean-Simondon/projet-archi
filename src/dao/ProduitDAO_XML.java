@@ -4,12 +4,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import metier.I_Produit;
+import metier.Produit;
 import org.jdom.*;
 import org.jdom.input.*;
 import org.jdom.output.*;
-
-import metier.I_Produit;
-import metier.Produit;
 
 
 public class ProduitDAO_XML {

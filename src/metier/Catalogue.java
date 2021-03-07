@@ -1,7 +1,10 @@
 package metier;
 
+import dao.DAOFactory;
 import dao.ProduitDAO;
 import exception.database.MAJImpossible;
+import exception.database.ReadException;
+import exception.product.ProductException;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -16,8 +19,8 @@ public class Catalogue implements I_Catalogue {
 
     static private DecimalFormat df;
 
-    public Catalogue() {
-        lesProduits = ProduitDAO.readAll(); // Agressive loading
+    public Catalogue() throws ReadException {
+        lesProduits = DAOFactory.getInstance().readAll(); // Agressive loading
 
         if ( df == null ) {
             initialization();
@@ -44,7 +47,7 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean addProduit(String nom, double prix, int qte) {
+    public boolean addProduit(String nom, double prix, int qte) throws ProductException {
         I_Produit produit = new Produit(nom,prix,qte);
         return addProduit(produit);
     }

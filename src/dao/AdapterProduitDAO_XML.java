@@ -8,15 +8,16 @@ import exception.product.ProductException;
 import metier.I_Produit;
 import metier.Produit;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Produit_DAO_XML_Adapter implements  ProduitDAO_I{
+public class AdapterProduitDAO_XML implements I_ProduitDAO {
+
+    private static final String TAG = "AdapterProduitDAO_XML";
 
     private final ProduitDAO_XML produitDAO_xml;
 
-    public Produit_DAO_XML_Adapter(){
+    public AdapterProduitDAO_XML(){
         this.produitDAO_xml = new ProduitDAO_XML();
     }
 
@@ -30,8 +31,18 @@ public class Produit_DAO_XML_Adapter implements  ProduitDAO_I{
         }
     }
 
+    /**
+     * @param p le produit
+     * @return l'ID du produit, donné par la BDD
+     */
     @Override
-    public I_Produit read(int id) throws ReadException, HydrateException {
+    public int create(I_Produit p) throws ProductException {
+        System.out.println(TAG + " : Create With Instance");
+        return create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
+    }
+
+    @Override
+    public I_Produit readById(int id) throws ReadException, HydrateException {
         return null; //On utilise pas cette methode vu qu'on a pas d'id en XML
     }
 
@@ -56,17 +67,16 @@ public class Produit_DAO_XML_Adapter implements  ProduitDAO_I{
         }
     }
 
+
+
     @Override
-    public boolean delete(int id) throws DeleteException {//Pas utilisé non plus parce que pas d'id
-        return false;
+    public void delete(int id) throws DeleteException {//Pas utilisé non plus parce que pas d'id
+
     }
 
     @Override
-    public boolean delete(I_Produit p) throws DeleteException {
-        if(!this.produitDAO_xml.supprimer(p)){
-            throw new DeleteException();
-        }
-        return true;
+    public void delete(I_Produit p) throws DeleteException {
+        delete(p.getId());
     }
 
     @Override
