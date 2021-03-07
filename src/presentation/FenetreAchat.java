@@ -8,6 +8,8 @@ import javax.swing.*;
 
 public class FenetreAchat extends JFrame implements ActionListener {
 
+	private static final String TAG = "FenetreAchat";
+
 	private JButton btAchat;
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;

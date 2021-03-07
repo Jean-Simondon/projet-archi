@@ -8,6 +8,8 @@ import javax.swing.*;
 
 public class FenetreSuppressionProduit extends JFrame implements ActionListener {
 
+	private static final String TAG = "FenetreSuppressionProduit";
+
 	private JButton btSupprimer;
 	private JComboBox<String> combo;
 	

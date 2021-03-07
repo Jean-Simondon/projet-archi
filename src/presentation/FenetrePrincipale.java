@@ -1,6 +1,7 @@
 package presentation;
 
 import controller.ControllerEtatStock;
+import dao.DAOManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,6 +9,8 @@ import javax.swing.*;
 
 public class FenetrePrincipale extends JFrame implements ActionListener,
 		WindowListener {
+
+	private static final String TAG = "FenetrePrincipale";
 
 	private JButton btAfficher;
 	private JButton btNouveauProduit;
@@ -20,6 +23,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 	
 	public FenetrePrincipale() {
+		System.out.println(TAG + " : FenetrePrincipale : Constructeur");
 		
 		setTitle("exercice Produits");
 		setBounds(500, 500, 320, 250);
@@ -61,28 +65,34 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		btAchat.addActionListener(this);
 		btVente.addActionListener(this);
 		btQuitter.addActionListener(this);
+
+		DAOManager.ConnexionBD();
 		
 		addWindowListener(this);
 		setVisible(true);
 	}
 
 	public void actionPerformed(ActionEvent e) {
+		System.out.println(TAG + " : actionPerformed");
 
 /* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
    Quand l'application fonctionnera, il faudra bien s�r r�cup�rer les noms des produits dans le Catalogue */
 		String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
-/* M�me chose pour tabCategories (partie 4) */ 		
+/* M�me chose pour tabCategories (partie 4) */
 //		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
 		if (e.getSource() == btAfficher){
+			System.out.println(TAG + " : btAfficher");
 			String affichage = ControllerEtatStock.getInformationsProduit();
 			new FenetreAffichage(affichage);
 		}
 		if (e.getSource() == btNouveauProduit) {
+			System.out.println(TAG + " : btNouveauProduit");
 //			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();
 		}
 		if (e.getSource() == btSupprimerProduit) {
+			System.out.println(TAG + " : btSupprimerProduit");
 			new FenetreSuppressionProduit(tabProduits);
 		}
 //		if (e.getSource() == btNouvelleCategorie){
@@ -90,32 +100,50 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 //		if (e.getSource() == btSupprimerCategorie){
 //			new FenetreSuppressionCategorie(tabCategories);}
 		if (e.getSource() == btAchat) {
+			System.out.println(TAG + " : btAchat");
 			new FenetreAchat(tabProduits);
 		}
 		if (e.getSource() == btVente) {
+			System.out.println(TAG + " : btVente");
 			new FenetreVente(tabProduits);
 		}
 		if (e.getSource() == btQuitter){
-			System.out.println("Au revoir");
+			System.out.println(TAG + " : btQuitter");
+			System.out.println(TAG + " : Au revoir");
 			System.exit(0);
 		}
 	}
 
 	public void windowClosing(WindowEvent arg0) {
+		System.out.println(TAG + " : windowClosing");
+		DAOManager.deconnexion();
 		System.out.println("Au revoir");
 		System.exit(0);
 	}
 
-	public void windowActivated(WindowEvent arg0) {}
-	public void windowClosed(WindowEvent arg0) {}
-	public void windowDeactivated(WindowEvent arg0) {}
-	public void windowDeiconified(WindowEvent arg0) {}
-	public void windowIconified(WindowEvent arg0) {}
-	public void windowOpened(WindowEvent arg0) {}
+	public void windowActivated(WindowEvent arg0) {
+		System.out.println(TAG + " : windowActivated");
+	}
+	public void windowClosed(WindowEvent arg0) {
+		System.out.println(TAG + " : windowClosed");
+	}
+	public void windowDeactivated(WindowEvent arg0) {
+		System.out.println(TAG + " : windowDeactivated");
+	}
+	public void windowDeiconified(WindowEvent arg0) {
+		System.out.println(TAG + " : windowDeiconified");
+	}
+	public void windowIconified(WindowEvent arg0) {
+		System.out.println(TAG + " : windowIconified");
+	}
+	public void windowOpened(WindowEvent arg0) {
+		System.out.println(TAG + " : windowOpened");
+	}
 
 	
 	
 	public static void main(String[] args) {
+		System.out.println(TAG + " : main");
 		new FenetrePrincipale();
 	}
 

@@ -6,6 +6,8 @@ import javax.swing.*;
 
 public class FenetreAffichage extends JFrame implements ActionListener {
 
+	private static final String TAG = "FenetreAffichage";
+
 	private JButton btOK;
 	
 	public FenetreAffichage(String texte) {

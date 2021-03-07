@@ -1,29 +1,34 @@
 package metier;
 
+import dao.ProduitDAO;
 import exception.database.MAJImpossible;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Comparator;
 import java.util.List;
 
-import static java.lang.Math.round;
-
 public class Catalogue implements I_Catalogue {
 
-    private ArrayList<I_Produit> lesProduits;
+    private static final String TAG = "Catalogue";
 
-    private Catalogue instance;
+    private ArrayList<I_Produit> lesProduits; // Agressive Loading, on récupère tous les produits dès l'instanciation du catalogue
 
     static private DecimalFormat df;
 
     public Catalogue() {
-        lesProduits = new ArrayList<>();
+        lesProduits = ProduitDAO.readAll(); // Agressive loading
+
+        if ( df == null ) {
+            initialization();
+        }
+    }
+
+    /**
+     * Initialize le DecimalFormat de la classe Catalogue
+     */
+    private void initialization()
+    {
         df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         df.setMinimumFractionDigits(2);
@@ -40,7 +45,7 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public boolean addProduit(String nom, double prix, int qte) {
-        Produit produit = new Produit(nom,prix,qte);
+        I_Produit produit = new Produit(nom,prix,qte);
         return addProduit(produit);
     }
 

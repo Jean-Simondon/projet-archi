@@ -1,5 +1,6 @@
 package dao;
 
+import metier.I_Produit;
 import metier.Produit;
 
 import java.sql.CallableStatement;
@@ -10,6 +11,8 @@ import java.util.ArrayList;
 
 public class ProduitDAO extends DAOManager {
 
+    private static final String TAG = "ProduitDAO";
+
     /**
      *
      * @param nom
@@ -17,21 +20,27 @@ public class ProduitDAO extends DAOManager {
      * @param qte
      * @return vrai si le produit a bien été crée
      */
-    public static int create(String nom, double prixUnitaireHT, int qte) {
+    public static void create(String nom, double prixUnitaireHT, int qte)
+    {
+        System.out.println(TAG + " : Create");
         int id = -1;
         try {
-            CallableStatement cst = cn.prepareCall("{ ? = call insertProduit( ?, ?, ?)}"); // appel de fonction
+            // Récupération du prochain ID de la table Produit
+            CallableStatement cstId = cn.prepareCall("{ ? = call getNextValSequenceProduit() }"); // appel de fonction pour obtenir le prochain ID de la table Produits
+            cstId.registerOutParameter(1, Types.NUMERIC);
+            cstId.execute();
+            id = cstId.getInt(1);
+
+            CallableStatement cst = cn.prepareCall("INSERT INTO Produits (id, nom, prixUnitaireHT, qte) VALUES (?, ?, ?, ?)");
+            cst.setInt(1, id);
             cst.setString(2,nom);
             cst.setDouble(3,prixUnitaireHT);
-            cst.setInt(3,qte);
-            cst.registerOutParameter(1, Types.INTEGER);
+            cst.setInt(4,qte);
             cst.execute();
-            id = cst.getInt(1);
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return id;
+
     }
 
     /**
@@ -39,21 +48,23 @@ public class ProduitDAO extends DAOManager {
      * @param p
      * @return vrai si le produit a bien été crée
      */
-    public static int create(Produit p)
+    public static void create(Produit p)
     {
-        return create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
+        System.out.println(TAG + " : Create");
+        create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
 
     /**
      * renvoie un produit en particulier
-     * @param id
+     * @param name
      * @return Produit
      */
-    public static Produit read(int id)
+    public static I_Produit read(String name)
     {
+        System.out.println(TAG + " : Read");
         try {
-            pst = cn.prepareStatement("SELECT * FROM produit WHERE ID = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            pst.setInt(1, id);
+            pst = cn.prepareStatement("SELECT * FROM produits WHERE nom = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst.setString(1, name);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -71,10 +82,11 @@ public class ProduitDAO extends DAOManager {
      * Renvoie tous les produits de la base de données
      * @return ArrayListe<Produit>
      */
-    public static ArrayList<Produit> readAll()
+    public static ArrayList<I_Produit> readAll()
     {
+        System.out.println(TAG + " : ReadAll");
         try {
-            pst = cn.prepareStatement("SELECT * FROM produit", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst = cn.prepareStatement("SELECT * FROM produits", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -85,7 +97,7 @@ public class ProduitDAO extends DAOManager {
             e.printStackTrace();
         }
 
-        ArrayList<Produit> listeProduits = new ArrayList<>();
+        ArrayList<I_Produit> listeProduits = new ArrayList<>();
 
         try {
             int nbRow = rs.getRow();
@@ -100,45 +112,68 @@ public class ProduitDAO extends DAOManager {
         return listeProduits;
     }
 
+    public static Produit readWhereName(String nom)
+    {
+        System.out.println(TAG + " : ReadWhereName");
+        try {
+            pst = cn.prepareStatement("SELECT * FROM produits WHERE nom = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst.setString(1, nom);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            rs = pst.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hydrateProduit();
+    }
 
     public static boolean update(Produit p)
     {
+        System.out.println(TAG + " : Update");
         try {
-            pst = cn.prepareStatement("UPDATE produit SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst = cn.prepareStatement("UPDATE Produits SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE nom LIKE ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setString(1, p.getNom());
             pst.setDouble(2, p.getPrixUnitaireHT());
             pst.setInt(3, p.getQuantite());
-            pst.setInt(4, p.getId());
+            pst.setString(4, p.getNom());
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
 
         return true;
     }
 
-    public static boolean delete(int id)
+    public static boolean delete(String name)
     {
+        System.out.println(TAG + " : Delete");
         try {
-            pst = cn.prepareStatement("DELETE FROM produit WHERE id = ?");
-            pst.setInt(1, id);
+            pst = cn.prepareStatement("DELETE FROM Produits WHERE nom = ?");
+            pst.setString(1, name);
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
         return true;
     }
 
     public static boolean delete(Produit p)
     {
-        return delete(p.getId());
+        System.out.println(TAG + " : Delete");
+        return delete(p.getNom());
     }
 
-    public static Produit hydrateProduit() {
-        int id = -1;
+    public static Produit hydrateProduit()
+    {
+        System.out.println(TAG + " : HydrateProduit");
         String nom = null;
         double prixUnitaireHT = -1;
         int qte = -1;
         try{
-            id = rs.getInt("id");
             nom = rs.getString("nom");
             prixUnitaireHT = rs.getDouble("prixUnitaireHT");
             if( rs.wasNull() ) {
@@ -153,5 +188,6 @@ public class ProduitDAO extends DAOManager {
         }
         return new Produit(nom, prixUnitaireHT, qte);
     }
+
 
 }

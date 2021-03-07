@@ -4,18 +4,20 @@ import java.sql.*;
 
 public class DAOManager {
 
+    private static final String TAG = "FenetrePrincipale";
+
     public static ResultSet rs;
     public static Connection cn;
     public static PreparedStatement pst;
 
     public static void ConnexionBD()
     {
+        System.out.println(TAG + " : ConnexionBD");
+
         String url = "jdbc:oracle:thin:@162.38.222.149:1521:iut";
         String driver = "oracle.jdbc.driver.OracleDriver";
         String login = "simondonj";
         String mdp = "21092020";
-
-        System.out.println("Connexion");
 
         try {
             Class.forName(driver);
@@ -29,14 +31,13 @@ public class DAOManager {
             e.printStackTrace();
         }
 
-        System.out.println("fin connexion");
+        System.out.println(TAG + " : fin fetch");
 
     }
 
     public static void deconnexion()
     {
-
-        System.out.println("début déconnexion");
+        System.out.println(TAG + " : deconnexion");
 
         try {
             rs.close();
@@ -47,5 +48,6 @@ public class DAOManager {
         }
 
     }
+
 
 }

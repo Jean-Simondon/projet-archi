@@ -7,9 +7,11 @@ import java.text.DecimalFormat;
 
 public class Produit implements I_Produit {
 
-    private final int id;
+    private static final String TAG = "Produit";
 
     private int quantiteStock;
+
+    private int id;
 
     private String nom;
 
@@ -23,39 +25,29 @@ public class Produit implements I_Produit {
 
     /**
      * Constructeur avec id, donc déjà présent en BDD
-     * @param id l'id
      * @param nom le nom
      * @param prixUnitaireHT le prix HT
      * @param qte la quantité
      */
     public Produit(int id, String nom , double prixUnitaireHT, int qte)
     {
-        if( id < 0) {
-//            this.id = ProduitDAO.create(nom, prixUnitaireHT, qte);
-            this.id = -1;
+        if( id < 0 ) {
+            ProduitDAO.create(nom, prixUnitaireHT, qte);
         } else {
             this.id = id;
         }
+
         this.nom = nom.trim();
         this.prixUnitaireHT = prixUnitaireHT;
         this.quantiteStock = qte;
         this.tauxTVA = 0.2;
 
-        if(df == null){
+        if ( df == null ) {
             initialization();
         }
-
-
     }
 
-    /**
-     * Constructeur lorsque l'on ne fournit pas l'ID, donc que le produit n'existe pas dans la BDD, alors on le crée avant d'instancier l'objet
-     * @param nom le nom du produit
-     * @param prixUnitaireHT le prix
-     * @param qte la quantité
-     */
-    public Produit(String nom , double prixUnitaireHT, int qte)
-    {
+    public Produit(String nom, double prixUnitaireHT, int qte) {
         this(-1, nom, prixUnitaireHT, qte);
     }
 
@@ -125,10 +117,6 @@ public class Produit implements I_Produit {
             somme += this.getPrixUnitaireTTC();
         }
         return somme;
-    }
-
-    public int getId() {
-        return id;
     }
 
     @Override

@@ -8,6 +8,8 @@ import javax.swing.*;
 
 public class FenetreNouveauProduit extends JFrame implements ActionListener {
 
+	private static final String TAG = "FenetreNouveauProduit";
+
 	private JTextField txtPrixHT;
 	private JTextField txtNom;
 	private JTextField txtQte;
