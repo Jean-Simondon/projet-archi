@@ -23,10 +23,11 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
 
     @Override
     public int create(String nom, double prixUnitaireHT, int qte) throws ProductException {
-        if(this.produitDAO_xml.creer(new Produit(nom,prixUnitaireHT,qte))){
-            return -1; //todo Changer ça pour retourner un id plus adéquat parce que le XML dao renvoie un boolean
-        }
-        else{
+        try {
+            this.produitDAO_xml.creer(new Produit(nom,prixUnitaireHT,qte));
+            I_Produit produit = this.produitDAO_xml.lire(nom);
+            return produit.getId();
+        } catch ( ProductException e) {
             throw new ProductException("Création du produit XML impossible");
         }
     }

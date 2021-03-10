@@ -26,6 +26,7 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
      * @param qte La quantité de produit
      * @return l'ID du produit, donné par la BDD
      */
+    @Override
     public int create(String nom, double prixUnitaireHT, int qte)
     {
         System.out.println(TAG + " : Create With Attribute");
@@ -61,6 +62,7 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
      * @param p le produit
      * @return l'ID du produit, donné par la BDD
      */
+    @Override
     public int create(I_Produit p)
     {
         System.out.println(TAG + " : Create With Instance");
@@ -72,6 +74,7 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
      * @param id l'id du produit
      * @return renvoie le Produit trouvé en BDD pour cet ID
      */
+    @Override
     public I_Produit readById(int id) throws ReadException, HydrateException
     {
         try{
@@ -90,15 +93,15 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
      * @param name le nom du produit
      * @return renvoie le Produit trouvé en BDD pour ce nom là
      */
+    @Override
     public I_Produit readByName(String name) throws ReadException, HydrateException, ProductException {
         try{
             pst = cn.prepareStatement("SELECT * FROM produit WHERE NOM = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setString(1, name);
             ResultSet rs = pst.executeQuery();
-        }catch (SQLException e ){
+        } catch ( SQLException e ) {
             throw new ReadException();
         }
-
         return hydrateProduit();
     }
 
@@ -106,6 +109,7 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
      * Renvoie tous les produits de la base de données
      * @return List<I_Produit>
      */
+    @Override
     public List<I_Produit> readAll() throws ReadException {
         System.out.println(TAG + " : ReadAll");
         try {
@@ -134,18 +138,37 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
         }
     }
 
-    public void update(int id, String name, double prixUnitaireHT, int qte) throws SQLException {
-        CallableStatement cst = cn.prepareCall("UPDATE Produit SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?");
-        cst.setString(1, name);
-        cst.setDouble(2, prixUnitaireHT);
-        cst.setInt(3, qte);
-        cst.setInt(4, id);
-        cst.execute();
+    /**
+     * Mets à jour le produit à l'aide de nouvelles données
+     * @param id
+     * @param name
+     * @param prixUnitaireHT
+     * @param qte
+     * @throws SQLException
+     */
+    public boolean update(int id, String name, double prixUnitaireHT, int qte) throws SQLException {
+        try {
+            CallableStatement cst = cn.prepareCall("UPDATE Produit SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?");
+            cst.setString(1, name);
+            cst.setDouble(2, prixUnitaireHT);
+            cst.setInt(3, qte);
+            cst.setInt(4, id);
+            cst.execute();
+        } catch( SQLException e ) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
+    /**
+     * Mets à jour le produit passé en paramètre
+     * @param p
+     * @throws SQLException
+     */
     @Override
-    public void update(I_Produit p) throws SQLException {
-        update(p.getId(), p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
+    public boolean update(I_Produit p) throws SQLException {
+        return update(p.getId(), p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
 
 
@@ -188,10 +211,7 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
         return true;
     }
 
-
-
-    @Override
-    public void delete(int id) throws DeleteException, SQLException {
+    public boolean delete(int id) throws DeleteException, SQLException {
         System.out.println(TAG + " : Delete");
         try {
         CallableStatement cst = cn.prepareCall("DELETE FROM Produit WHERE id = ?");
@@ -199,13 +219,15 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
         cst.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     @Override
-    public void delete(I_Produit p) throws DeleteException, SQLException {
+    public boolean delete(I_Produit p) throws DeleteException, SQLException {
         System.out.println(TAG + " : Delete");
-        delete(p.getId());
+        return delete(p.getId());
     }
 
 
