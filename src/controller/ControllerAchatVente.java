@@ -11,22 +11,16 @@ public class ControllerAchatVente extends ControllerManager {
     }
 
     public static boolean acheterProduit(String nomProduit, int qteAchetee) {
-        try {
+
             return cat.acheterStock(nomProduit, qteAchetee);
 
-        }catch (MAJImpossible e){
-            //TODO trouver quoi faire quand une exception est levée du à une propagation des changements de valeur impossible
-            return false;
-        }
+
     }
 
     public static boolean vendreProduit(String nomProduit, int qteAchetee) {
-        try {
+
             return cat.vendreStock(nomProduit, qteAchetee);
-        }catch (MAJImpossible e ){
-            //TODO trouver quoi faire quand une exception est levée du à une propagation des changements de valeur impossible
-            return false;
-        }
+
     }
 
 }

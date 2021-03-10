@@ -10,6 +10,8 @@ import metier.Produit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdapterProduitDAO_XML implements I_ProduitDAO {
 
@@ -22,14 +24,10 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
     }
 
     @Override
-    public int create(String nom, double prixUnitaireHT, int qte) throws ProductException {
-        try {
+    public int create(String nom, double prixUnitaireHT, int qte) {
             this.produitDAO_xml.creer(new Produit(nom,prixUnitaireHT,qte));
             I_Produit produit = this.produitDAO_xml.lire(nom);
             return produit.getId();
-        } catch ( ProductException e) {
-            throw new ProductException("Création du produit XML impossible");
-        }
     }
 
     /**
@@ -37,13 +35,13 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
      * @return l'ID du produit, donné par la BDD
      */
     @Override
-    public int create(I_Produit p) throws ProductException {
-        System.out.println(TAG + " : Create With Instance");
+    public int create(I_Produit p){
+        Logger.getLogger(TAG).log(Level.INFO," Creation Produit avec instance");
         return create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
 
     @Override
-    public I_Produit readById(int id) throws ReadException, HydrateException {
+    public I_Produit readById(int id) {
         return null; //On utilise pas cette methode vu qu'on a pas d'id en XML
     }
 
@@ -52,33 +50,30 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
     }
 
     @Override
-    public List<I_Produit> readAll() throws ReadException {
-       try{
+    public List<I_Produit> readAll(){
+
            return this.produitDAO_xml.lireTous();
-       }catch (Exception e){
-           throw new ReadException();
-       }
 
     }
 
     @Override
-    public boolean update(I_Produit p) throws UpdateException {
+    public boolean update(I_Produit p) {
         if(!this.produitDAO_xml.maj(p)){
-            throw new UpdateException();
+           return false;
         }
         return true;
     }
 
     @Override
-    public boolean delete(I_Produit p) throws DeleteException {
+    public boolean delete(I_Produit p) {
         if(!this.produitDAO_xml.supprimer(p)) {
-            throw new DeleteException();
+            return false;
         }
         return true;
     }
 
     @Override
-    public Produit hydrateProduit() throws HydrateException { //Pas utilisé parce que pas besoin d'hydrater
+    public Produit hydrateProduit() { //Pas utilisé parce que pas besoin d'hydrater
         return null;
     }
 }

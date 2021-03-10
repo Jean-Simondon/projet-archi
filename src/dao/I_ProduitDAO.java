@@ -24,7 +24,7 @@ public interface I_ProduitDAO {
 
     List<I_Produit> readAll() throws ReadException;
 
-    boolean update(I_Produit p) throws UpdateException, SQLException;
+    boolean update(I_Produit p) throws UpdateException;
 
     boolean delete(I_Produit p) throws DeleteException, SQLException;
 
