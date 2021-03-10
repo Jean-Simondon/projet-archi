@@ -61,22 +61,19 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
     }
 
     @Override
-    public void update(I_Produit p) throws UpdateException {
+    public boolean update(I_Produit p) throws UpdateException {
         if(!this.produitDAO_xml.maj(p)){
             throw new UpdateException();
         }
-    }
-
-
-
-    @Override
-    public void delete(int id) throws DeleteException {//Pas utilisé non plus parce que pas d'id
-
+        return true;
     }
 
     @Override
-    public void delete(I_Produit p) throws DeleteException {
-        delete(p.getId());
+    public boolean delete(I_Produit p) throws DeleteException {
+        if(!this.produitDAO_xml.supprimer(p)) {
+            throw new DeleteException();
+        }
+        return true;
     }
 
     @Override
