@@ -2,7 +2,7 @@ DROP TABLE Produits;
 
 CREATE TABLE Produits(
             id NUMBER,
-            nom VARCHAR(50),
+            nom VARCHAR(50) UNIQUE,
             prixUnitaireHT DOUBLE PRECISION,
             qte NUMBER,
             CONSTRAINT pk_produit PRIMARY KEY (id),

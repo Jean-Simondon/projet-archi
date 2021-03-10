@@ -13,6 +13,7 @@ import metier.Produit;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public class CatalogueTest {
 
 	I_Catalogue cat;
@@ -821,6 +822,6 @@ public class CatalogueTest {
 			return new Produit(nom,prixHT,quantite);
 		}
 		catch (Exception e) { return null; }
-	}		
+	}
 
 }
