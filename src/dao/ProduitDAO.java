@@ -161,6 +161,7 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
         return true;
     }
 
+
     /**
      * Mets à jour le produit passé en paramètre
      * @param p
@@ -188,27 +189,6 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
         }
 
         return hydrateProduit();
-    }
-
-        /**
-         * Mets à jour un produit grâce à un Objet produit
-         * @param p le produit
-         * @throws UpdateException Si quelque chose s'est mal passé pendant la mise à jour
-         */
-    public boolean update(Produit p) throws UpdateException {
-        System.out.println(TAG + " : Update");
-        try {
-            pst = cn.prepareStatement("UPDATE Produits SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE nom LIKE ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            pst.setString(1, p.getNom());
-            pst.setDouble(2, p.getPrixUnitaireHT());
-            pst.setInt(3, p.getQuantite());
-            pst.setString(4, p.getNom());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        return true;
     }
 
     public boolean delete(int id) throws DeleteException, SQLException {
