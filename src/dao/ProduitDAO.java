@@ -197,7 +197,7 @@ public class ProduitDAO extends DAOManager implements I_ProduitDAO {
 
     }
 
-    public boolean delete(int id) throws DeleteException, SQLException {
+    public boolean delete(int id) {
         System.out.println(TAG + " : Delete");
         try {
         CallableStatement cst = cn.prepareCall("DELETE FROM Produit WHERE id = ?");
