@@ -10,21 +10,28 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Catalogue implements I_Catalogue {
 
-    private static final String TAG = "Catalogue";
+    private static final String TAG = "[Catalogue]";
 
-    private ArrayList<I_Produit> lesProduits; // Agressive Loading, on récupère tous les produits dès l'instanciation du catalogue
+    private List<I_Produit> lesProduits; // Agressive Loading, on récupère tous les produits dès l'instanciation du catalogue
 
     static private DecimalFormat df;
 
-    public Catalogue() throws ReadException {
-        lesProduits = DAOFactory.getInstance().readAll(); // Agressive loading
+    public Catalogue() {
+        try{
+            lesProduits = DAOFactory.getInstance().readAll(); // Agressive loading
 
-        if ( df == null ) {
-            initialization();
+            if ( df == null ) {
+                initialization();
+            }
+        }catch (ReadException e){
+           Logger.getLogger(Catalogue.TAG).log(Level.WARNING,"Erreur pendant l'initialisation du catalogue");
         }
+
     }
 
     /**
@@ -47,7 +54,7 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean addProduit(String nom, double prix, int qte) throws ProductException {
+    public boolean addProduit(String nom, double prix, int qte) {
         I_Produit produit = new Produit(nom,prix,qte);
         return addProduit(produit);
     }
@@ -81,7 +88,7 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean acheterStock(String nomProduit, int qteAchetee) throws MAJImpossible {
+    public boolean acheterStock(String nomProduit, int qteAchetee) {
         int index = this.findIndexOfProduct(nomProduit);
         if(index == -1 ){
             return false;
@@ -90,7 +97,7 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean vendreStock(String nomProduit, int qteVendue) throws MAJImpossible {
+    public boolean vendreStock(String nomProduit, int qteVendue) {
         int index = this.findIndexOfProduct(nomProduit);
         if(index == -1 ){
             return false;
@@ -106,12 +113,7 @@ public class Catalogue implements I_Catalogue {
         for (I_Produit lesProduit : this.lesProduits) {
             noms.add(lesProduit.getNom());
         }
-        noms.sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.compareTo(o2);
-            }
-        });
+        noms.sort(String::compareTo);
 
         for (int i = 0 ; i < noms.size() ; i++){
             arrayNom[i] = noms.get(i);

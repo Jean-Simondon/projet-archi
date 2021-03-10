@@ -4,8 +4,8 @@ import exception.database.MAJImpossible;
 
 public interface I_Produit extends PersistableEntity{
 
-boolean ajouter(int qteAchetee) throws MAJImpossible;
-boolean enlever(int qteVendue) throws MAJImpossible;
+boolean ajouter(int qteAchetee);
+boolean enlever(int qteVendue);
 String getNom();
 int getQuantite();
 double getPrixUnitaireHT();

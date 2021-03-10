@@ -8,10 +8,11 @@ import exception.product.ProductException;
 
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 public class Produit implements I_Produit {
 
-    private static final String TAG = "Produit";
+    private static final String TAG = "[Product]";
 
     private final int id; // identifiant donné par la base de données
 
@@ -27,6 +28,7 @@ public class Produit implements I_Produit {
 
     private static I_ProduitDAO produitDAO; // CRUD vers la BDD, persistance des données
 
+
     /**
      * Constructeur avec id, donc déjà présent en BDD
      * @param id l'id
@@ -34,12 +36,20 @@ public class Produit implements I_Produit {
      * @param prixUnitaireHT le prix HT
      * @param qte la quantité
      */
-    public Produit(int id, String nom , double prixUnitaireHT, int qte) throws ProductException {
+    public Produit(int id, String nom , double prixUnitaireHT, int qte) {
+        int productId;
         if( id < 0 ) {
-            this.id = DAOFactory.getInstance().create(nom, prixUnitaireHT, qte);
+            try{
+                productId = DAOFactory.getInstance().create(nom, prixUnitaireHT, qte);
+            }catch(ProductException e){
+                productId = -1;
+                Logger.getLogger(Produit.TAG).log(Level.WARNING,"Erreur pendant la création d'un produit");
+            }
+
         } else {
-            this.id = id;
+            productId = id;
         }
+        this.id = productId;
         this.nom = nom.trim();
         this.prixUnitaireHT = prixUnitaireHT;
         this.quantiteStock = qte;
@@ -59,7 +69,7 @@ public class Produit implements I_Produit {
      * @param prixUnitaireHT le prix
      * @param qte la quantité
      */
-    public Produit(String nom , double prixUnitaireHT, int qte) throws ProductException {
+    public Produit(String nom , double prixUnitaireHT, int qte){
         this(-1, nom, prixUnitaireHT, qte);
     }
 
@@ -79,11 +89,14 @@ public class Produit implements I_Produit {
      * @return true if it's ok, else false if qte is less than 1
      */
     @Override
-    public boolean ajouter(int qteAchetee) throws MAJImpossible {
+    public boolean ajouter(int qteAchetee) {
         if(qteAchetee > 0 ){
+
             this.quantiteStock += qteAchetee;
-//            this.save(); // A décommenter quand la BDD sera dispo
+//                this.save(); //todo :  décommenter tout ça quand la BDD sera dispo !!
             return true;
+
+
         }
         return false;
     }
@@ -93,10 +106,10 @@ public class Produit implements I_Produit {
      * @return true if it's ok, else false if qte is less than 1 or if qte is higher than actual stock
      */
     @Override
-    public boolean enlever(int qteVendue) throws MAJImpossible {
+    public boolean enlever(int qteVendue){
         if(qteVendue > 0 && qteVendue < getQuantite()){
             this.quantiteStock -= qteVendue;
-//            this.save(); // A décommenter quand la BDD sera dispo
+//            this.save() ; //todo :  décommenter tout ça quand la BDD sera dispo !!
             return true;
         }
         return false;
@@ -141,8 +154,12 @@ public class Produit implements I_Produit {
     }
 
     @Override
-    public void save() throws UpdateException, SQLException {
-        produitDAO.update(this);
+    public void save(){
+        try{
+            produitDAO.update(this);
+        }catch (UpdateException e){
+            Logger.getLogger(Produit.TAG).log(Level.WARNING,"Erreur pendant le save() d'un produit");
+        }
 
     }
 }

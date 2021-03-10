@@ -5,11 +5,13 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import dao.DAOManager;
 import exception.database.MAJImpossible;
 import metier.Catalogue;
 import metier.I_Catalogue;
 import metier.I_Produit;
 import metier.Produit;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -19,9 +21,15 @@ public class CatalogueTest {
 
 	@Before
 	public void setUp() {
+		DAOManager.ConnexionBD();
 		cat = new Catalogue();
 //		Si votre Catalogue est un Singleton, il faut changer la ligne précédente puis vider le Catalogue avec la méthode clear() comme indiqué à la ligne suivante
 //		cat.clear();
+	}
+
+	@After
+	public void deconnect(){
+		DAOManager.deconnexion();
 	}
 	
 	@Test

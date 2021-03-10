@@ -18,9 +18,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="jdom" level="project" />
-    <orderEntry type="library" name="classes111" level="project" />
-    <orderEntry type="library" name="mysql-connector-java-5.1.5-bin" level="project" />
-    <orderEntry type="library" name="ojdbc6" level="project" />
-    <orderEntry type="library" name="sqlite-jdbc-3.5.7" level="project" />
+    <orderEntry type="library" name="ojdbc11" level="project" />
   </component>
 </module>
