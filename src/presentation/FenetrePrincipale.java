@@ -1,5 +1,7 @@
 package presentation;
 
+import controller.ControllerAchatVente;
+import controller.ControllerCreationSuppression;
 import controller.ControllerEtatStock;
 import dao.DAOManager;
 
@@ -75,25 +77,24 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	public void actionPerformed(ActionEvent e) {
 		System.out.println(TAG + " : actionPerformed");
 
-/* tabProduits permet de tester le fonctionnement des fen�tres avec un tableau de noms de produits "en dur"
-   Quand l'application fonctionnera, il faudra bien s�r r�cup�rer les noms des produits dans le Catalogue */
 		String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
-/* M�me chose pour tabCategories (partie 4) */
-//		String[] tabCategories = new String[] {"Bio", "Luxe" };
+
+		/** TABLEAU DE TEST POUR QUAND ON AURA LES CATEGORIE  */
+		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
-		if (e.getSource() == btAfficher){
+		if ( e.getSource() == btAfficher ) {
 			System.out.println(TAG + " : btAfficher");
 			String affichage = ControllerEtatStock.getInformationsProduit();
 			new FenetreAffichage(affichage);
 		}
-		if (e.getSource() == btNouveauProduit) {
+		if ( e.getSource() == btNouveauProduit ) {
 			System.out.println(TAG + " : btNouveauProduit");
 //			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();
 		}
-		if (e.getSource() == btSupprimerProduit) {
+		if ( e.getSource() == btSupprimerProduit ) {
 			System.out.println(TAG + " : btSupprimerProduit");
-			new FenetreSuppressionProduit(tabProduits);
+			new FenetreSuppressionProduit(ControllerCreationSuppression.getNomsProduits());
 		}
 //		if (e.getSource() == btNouvelleCategorie){
 //			new FenetreNouvelleCategorie();}
@@ -101,11 +102,11 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 //			new FenetreSuppressionCategorie(tabCategories);}
 		if (e.getSource() == btAchat) {
 			System.out.println(TAG + " : btAchat");
-			new FenetreAchat(tabProduits);
+			new FenetreAchat(ControllerAchatVente.getNomsProduits());
 		}
 		if (e.getSource() == btVente) {
 			System.out.println(TAG + " : btVente");
-			new FenetreVente(tabProduits);
+			new FenetreVente(ControllerAchatVente.getNomsProduits());
 		}
 		if (e.getSource() == btQuitter){
 			System.out.println(TAG + " : btQuitter");
