@@ -7,6 +7,8 @@ import dao.DAOManager;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 public class FenetrePrincipale extends JFrame implements ActionListener,
@@ -25,7 +27,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 	
 	public FenetrePrincipale() {
-		System.out.println(TAG + " : FenetrePrincipale : Constructeur");
+		Logger.getLogger(TAG).log(Level.INFO,"constructeur");
 		
 		setTitle("exercice Produits");
 		setBounds(500, 500, 320, 250);
@@ -75,25 +77,25 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		System.out.println(TAG + " : actionPerformed");
+		Logger.getLogger(TAG).log(Level.INFO,"actionPerformed");
 
 		String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
 
-		/** TABLEAU DE TEST POUR QUAND ON AURA LES CATEGORIE  */
+		/* TABLEAU DE TEST POUR QUAND ON AURA LES CATEGORIE  */
 		String[] tabCategories = new String[] {"Bio", "Luxe" };
 		
 		if ( e.getSource() == btAfficher ) {
-			System.out.println(TAG + " : btAfficher");
+			Logger.getLogger(TAG).log(Level.INFO,"btAfficher");
 			String affichage = ControllerEtatStock.getInformationsProduit();
 			new FenetreAffichage(affichage);
 		}
 		if ( e.getSource() == btNouveauProduit ) {
-			System.out.println(TAG + " : btNouveauProduit");
+			Logger.getLogger(TAG).log(Level.INFO,"btNouveauProduit");
 //			new FenetreNouveauProduit(tabCategories);
 			new FenetreNouveauProduit();
 		}
 		if ( e.getSource() == btSupprimerProduit ) {
-			System.out.println(TAG + " : btSupprimerProduit");
+			Logger.getLogger(TAG).log(Level.INFO,"btSupprimerProduit");
 			new FenetreSuppressionProduit(ControllerCreationSuppression.getNomsProduits());
 		}
 //		if (e.getSource() == btNouvelleCategorie){
@@ -101,50 +103,50 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 //		if (e.getSource() == btSupprimerCategorie){
 //			new FenetreSuppressionCategorie(tabCategories);}
 		if (e.getSource() == btAchat) {
-			System.out.println(TAG + " : btAchat");
+			Logger.getLogger(TAG).log(Level.INFO,"btAchat");
 			new FenetreAchat(ControllerAchatVente.getNomsProduits());
 		}
 		if (e.getSource() == btVente) {
-			System.out.println(TAG + " : btVente");
+			Logger.getLogger(TAG).log(Level.INFO,"btVente");
 			new FenetreVente(ControllerAchatVente.getNomsProduits());
 		}
 		if (e.getSource() == btQuitter){
-			System.out.println(TAG + " : btQuitter");
+			Logger.getLogger(TAG).log(Level.INFO,"btQuitter");
 			System.out.println(TAG + " : Au revoir");
 			System.exit(0);
 		}
 	}
 
 	public void windowClosing(WindowEvent arg0) {
-		System.out.println(TAG + " : windowClosing");
+		Logger.getLogger(TAG).log(Level.INFO,"windowClosing");
 		DAOManager.deconnexion();
 		System.out.println("Au revoir");
 		System.exit(0);
 	}
 
 	public void windowActivated(WindowEvent arg0) {
-		System.out.println(TAG + " : windowActivated");
+//		Logger.getLogger(TAG).log(Level.INFO,"windowActivated");
 	}
 	public void windowClosed(WindowEvent arg0) {
-		System.out.println(TAG + " : windowClosed");
+//		Logger.getLogger(TAG).log(Level.INFO,"windowClosed");
 	}
 	public void windowDeactivated(WindowEvent arg0) {
-		System.out.println(TAG + " : windowDeactivated");
+//		Logger.getLogger(TAG).log(Level.INFO,"windowDeactivated");
 	}
 	public void windowDeiconified(WindowEvent arg0) {
-		System.out.println(TAG + " : windowDeiconified");
+//		Logger.getLogger(TAG).log(Level.INFO,"windowDeiconified");
 	}
 	public void windowIconified(WindowEvent arg0) {
-		System.out.println(TAG + " : windowIconified");
+//		Logger.getLogger(TAG).log(Level.INFO,"windowIconified");
 	}
 	public void windowOpened(WindowEvent arg0) {
-		System.out.println(TAG + " : windowOpened");
+//		Logger.getLogger(TAG).log(Level.INFO,"windowOpened");
 	}
 
 	
 	
 	public static void main(String[] args) {
-		System.out.println(TAG + " : main");
+		Logger.getLogger(TAG).log(Level.INFO,"main launch");
 		new FenetrePrincipale();
 	}
 

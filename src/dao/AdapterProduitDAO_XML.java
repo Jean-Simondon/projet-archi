@@ -1,14 +1,9 @@
 package dao;
 
-import exception.database.DeleteException;
-import exception.database.HydrateException;
-import exception.database.ReadException;
-import exception.database.UpdateException;
-import exception.product.ProductException;
+import exception.product.PrixInvalide;
+import exception.product.QteInvalide;
 import metier.I_Produit;
 import metier.Produit;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,7 +19,7 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
     }
 
     @Override
-    public int create(String nom, double prixUnitaireHT, int qte) {
+    public int create(String nom, double prixUnitaireHT, int qte) throws QteInvalide, PrixInvalide {
             this.produitDAO_xml.creer(new Produit(nom,prixUnitaireHT,qte));
             I_Produit produit = this.produitDAO_xml.lire(nom);
             return produit.getId();
@@ -35,7 +30,7 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
      * @return l'ID du produit, donné par la BDD
      */
     @Override
-    public int create(I_Produit p){
+    public int create(I_Produit p) throws PrixInvalide, QteInvalide {
         Logger.getLogger(TAG).log(Level.INFO," Creation Produit avec instance");
         return create(p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
@@ -58,18 +53,12 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
 
     @Override
     public boolean update(I_Produit p) {
-        if(!this.produitDAO_xml.maj(p)){
-           return false;
-        }
-        return true;
+        return this.produitDAO_xml.maj(p);
     }
 
     @Override
     public boolean delete(I_Produit p) {
-        if(!this.produitDAO_xml.supprimer(p)) {
-            return false;
-        }
-        return true;
+        return this.produitDAO_xml.supprimer(p);
     }
 
     @Override

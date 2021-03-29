@@ -2,11 +2,11 @@ package metier;
 
 import dao.I_ProduitDAO;
 import dao.DAOFactory;
-import exception.database.MAJImpossible;
 import exception.database.UpdateException;
 import exception.product.ProductException;
+import exception.product.QteInvalide;
+import exception.product.PrixInvalide;
 
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,7 +36,7 @@ public class Produit implements I_Produit {
      * @param prixUnitaireHT le prix HT
      * @param qte la quantité
      */
-    public Produit(int id, String nom , double prixUnitaireHT, int qte) {
+    public Produit(int id, String nom , double prixUnitaireHT, int qte) throws QteInvalide, PrixInvalide {
         int productId;
         if( id < 0 ) {
             try{
@@ -51,11 +51,17 @@ public class Produit implements I_Produit {
         }
         this.id = productId;
         this.nom = nom.trim();
+
+        if(qte < 0 ){
+            throw new QteInvalide();
+        }
+        if(prixUnitaireHT < 0 ){
+            throw new PrixInvalide();
+        }
         this.prixUnitaireHT = prixUnitaireHT;
         this.quantiteStock = qte;
-
         if ( df == null ) {
-            initialization();
+            initializeDF();
         }
         if( produitDAO == null ){
             produitDAO = DAOFactory.getInstance();
@@ -69,14 +75,14 @@ public class Produit implements I_Produit {
      * @param prixUnitaireHT le prix
      * @param qte la quantité
      */
-    public Produit(String nom , double prixUnitaireHT, int qte){
+    public Produit(String nom , double prixUnitaireHT, int qte) throws PrixInvalide, QteInvalide {
         this(-1, nom, prixUnitaireHT, qte);
     }
 
     /**
      * Initialize le DecimalFormat de la classe Produit
      */
-    private void initialization()
+    private void initializeDF()
     {
         df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
@@ -90,10 +96,10 @@ public class Produit implements I_Produit {
      */
     @Override
     public boolean ajouter(int qteAchetee) {
+        Logger.getLogger(TAG).log(Level.INFO,"Ajout de produit");
         if(qteAchetee > 0 ){
-
             this.quantiteStock += qteAchetee;
-//                this.save(); //todo :  décommenter tout ça quand la BDD sera dispo !!
+            this.save();
             return true;
 
 
@@ -107,9 +113,10 @@ public class Produit implements I_Produit {
      */
     @Override
     public boolean enlever(int qteVendue){
+        Logger.getLogger(TAG).log(Level.INFO,"Acheter produit");
         if(qteVendue > 0 && qteVendue < getQuantite()){
             this.quantiteStock -= qteVendue;
-//            this.save() ; //todo :  décommenter tout ça quand la BDD sera dispo !!
+            this.save() ;
             return true;
         }
         return false;

@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DAOManager {
 
-    private static final String TAG = "FenetrePrincipale";
+    private static final String TAG = "DAOManager";
 
     public static ResultSet rs;
     public static Connection cn;

@@ -7,6 +7,7 @@ CREATE TABLE Produits(
             qte NUMBER,
             CONSTRAINT pk_produit PRIMARY KEY (id),
             CONSTRAINT nn_nom CHECK (nom IS NOT NULL),
+            CONSTRAINT uk_nom UNIQUE,
             CONSTRAINT nn_prixUnitaireHT CHECK (prixUnitaireHT IS NOT NULL),
             CONSTRAINT nn_qte CHECK (qte IS NOT NULL)
 );

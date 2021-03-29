@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import exception.product.PrixInvalide;
+import exception.product.QteInvalide;
 import metier.I_Produit;
 import metier.Produit;
 import org.jdom.*;
@@ -72,8 +74,14 @@ public class ProduitDAO_XML {
 
     public I_Produit lire(String nom) {
         Element e = chercheProduit(nom);
-        if (e != null)
-            return new Produit(e.getAttributeValue("nom"), Double.parseDouble(e.getChildText("prixHT")), Integer.parseInt(e.getChildText("quantite")));
+        if (e != null) {
+            try {
+                return new Produit(e.getAttributeValue("nom"), Double.parseDouble(e.getChildText("prixHT")), Integer.parseInt(e.getChildText("quantite")));
+            } catch (PrixInvalide | QteInvalide error) {
+                error.printStackTrace();
+                return null;
+            }
+        }
         else
             return null;
     }
