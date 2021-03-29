@@ -223,5 +223,9 @@ public class ProduitDAO implements I_ProduitDAO {
 
     }
 
+    public void disconnect(){
+        DAOManager.deconnexion();
+    }
+
 
 }

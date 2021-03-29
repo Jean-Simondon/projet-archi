@@ -71,4 +71,7 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
         Logger.getLogger(TAG).log(Level.INFO,"Hydrate (should not be used)");
         return null;
     }
+
+    public void disconnect(){
+    }
 }

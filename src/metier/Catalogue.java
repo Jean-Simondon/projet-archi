@@ -179,10 +179,12 @@ public class Catalogue implements I_Catalogue {
         return index;
     }
 
-    //Todo  : je sais pas a quoi elle sert cette méthode..
+    /**
+     * Je crois que cette méthode sert à "terminer" le programme du coup
+     */
     @Override
     public void clear() {
-
+        this.produitDAO.disconnect();
     }
 
     @Override

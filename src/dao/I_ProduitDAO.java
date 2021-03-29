@@ -26,4 +26,6 @@ public interface I_ProduitDAO {
 
     I_Produit hydrateProduit() throws HydrateException, ProductException;
 
+    void disconnect();
+
 }
