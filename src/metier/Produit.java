@@ -3,13 +3,13 @@ package metier;
 import dao.I_ProduitDAO;
 import dao.DAOFactory;
 import exception.database.UpdateException;
-import exception.product.ProductException;
 import exception.product.QteInvalide;
 import exception.product.PrixInvalide;
 
 import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 public class Produit implements I_Produit {
 
     private static final String TAG = "[Product]";
@@ -26,47 +26,22 @@ public class Produit implements I_Produit {
 
     static private DecimalFormat df; // utile à former les sorties de chifres en String à 2 décmal après la virgule
 
-    private static I_ProduitDAO produitDAO; // CRUD vers la BDD, persistance des données
-
 
     /**
-     * Constructeur avec id, donc déjà présent en BDD
+     * Constructeur avec id
      * @param id l'id
      * @param nom le nom
      * @param prixUnitaireHT le prix HT
      * @param qte la quantité
      */
-    public Produit(int id, String nom , double prixUnitaireHT, int qte) throws QteInvalide, PrixInvalide {
-        int productId;
-        if( id < 0 ) {
-            try{
-                productId = DAOFactory.getInstance().create(nom, prixUnitaireHT, qte);
-            }catch(ProductException e){
-                productId = -1;
-                Logger.getLogger(Produit.TAG).log(Level.WARNING,"Erreur pendant la création d'un produit");
-            }
-
-        } else {
-            productId = id;
-        }
-        this.id = productId;
+    public Produit(int id, String nom , double prixUnitaireHT, int qte){
+        this.id = id;
         this.nom = nom.trim();
-
-        if(qte < 0 ){
-            throw new QteInvalide();
-        }
-        if(prixUnitaireHT < 0 ){
-            throw new PrixInvalide();
-        }
         this.prixUnitaireHT = prixUnitaireHT;
         this.quantiteStock = qte;
         if ( df == null ) {
             initializeDF();
         }
-        if( produitDAO == null ){
-            produitDAO = DAOFactory.getInstance();
-        }
-
     }
 
     /**
@@ -99,10 +74,7 @@ public class Produit implements I_Produit {
         Logger.getLogger(TAG).log(Level.INFO,"Ajout de produit");
         if(qteAchetee > 0 ){
             this.quantiteStock += qteAchetee;
-            this.save();
             return true;
-
-
         }
         return false;
     }
@@ -116,7 +88,6 @@ public class Produit implements I_Produit {
         Logger.getLogger(TAG).log(Level.INFO,"Acheter produit");
         if(qteVendue > 0 && qteVendue < getQuantite()){
             this.quantiteStock -= qteVendue;
-            this.save() ;
             return true;
         }
         return false;
@@ -160,13 +131,4 @@ public class Produit implements I_Produit {
         return getNom() + " - prix HT : " + df.format( getPrixUnitaireHT() ) + " € - prix TTC : " + df.format(getPrixUnitaireTTC()) + " € - quantité en stock : " + getQuantite() + "\n";
     }
 
-    @Override
-    public void save(){
-        try{
-            produitDAO.update(this);
-        }catch (UpdateException e){
-            Logger.getLogger(Produit.TAG).log(Level.WARNING,"Erreur pendant le save() d'un produit");
-        }
-
-    }
 }

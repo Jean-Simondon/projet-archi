@@ -14,7 +14,7 @@ import org.jdom.output.*;
 
 
 public class ProduitDAO_XML {
-    private String uri = "C:/Produits.xml";
+    private String uri = "./xml/Produits.xml";
     private Document doc;
 
     public ProduitDAO_XML() {

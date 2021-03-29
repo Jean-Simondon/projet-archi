@@ -99,7 +99,11 @@ public class ProduitDAO implements I_ProduitDAO {
             DAOManager.pst = DAOManager.cn.prepareStatement("SELECT * FROM produits WHERE NOM = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             DAOManager.pst.setString(1, name);
             DAOManager.rs = DAOManager.pst.executeQuery();
-            return hydrateProduit();
+            DAOManager.rs.next();
+            if(!DAOManager.rs.isAfterLast()){
+                return hydrateProduit();
+            }
+            else{return null;}
         } catch ( SQLException e ) {
             Logger.getLogger(TAG).log(Level.SEVERE, "Read Error");
             return null;
@@ -175,27 +179,6 @@ public class ProduitDAO implements I_ProduitDAO {
         return update(p.getId(), p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
 
-
-    public I_Produit readWhereName(String nom){
-        Logger.getLogger(TAG).log(Level.INFO,"ReadWhereName");
-        try {
-            DAOManager.pst = DAOManager.cn.prepareStatement("SELECT * FROM produits WHERE nom = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            DAOManager.pst.setString(1, nom);
-            DAOManager.rs = DAOManager.pst.executeQuery();
-        } catch (SQLException e) {
-            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur SQL : " + e.getMessage());
-            return null;
-        }
-
-        try{
-            return hydrateProduit();
-        }catch(HydrateException e){
-            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur pendant l'hydratation d'un produit");
-            return null;
-        }
-
-    }
-
     public boolean delete(int id) throws DeleteException {
         Logger.getLogger(TAG).log(Level.INFO,"Delete");
         try {
@@ -211,7 +194,8 @@ public class ProduitDAO implements I_ProduitDAO {
 
     @Override
     public boolean delete(I_Produit p) throws DeleteException {
-        return delete(p.getId());
+        I_Produit produit = this.readByName(p.getNom());
+        return delete(produit.getId());
     }
 
 
@@ -235,12 +219,7 @@ public class ProduitDAO implements I_ProduitDAO {
         } catch (SQLException e) {
            throw new HydrateException();
         }
-        try {
-            return new Produit(id,nom, prixUnitaireHT, qte);
-        }catch(QteInvalide | PrixInvalide e){
-            e.printStackTrace();
-            return null;
-        }
+        return new Produit(id,nom, prixUnitaireHT, qte);
 
     }
 

@@ -119,7 +119,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 	public void windowClosing(WindowEvent arg0) {
 		Logger.getLogger(TAG).log(Level.INFO,"windowClosing");
-		DAOManager.deconnexion();
+		DAOManager.deconnexion(); //Todo : donner un DAO à la fenetre principale et gérer ça automatiquement
 		System.out.println("Au revoir");
 		System.exit(0);
 	}

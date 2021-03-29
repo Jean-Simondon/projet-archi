@@ -14,15 +14,18 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
 
     private final ProduitDAO_XML produitDAO_xml;
 
+    private int counter;
+
     public AdapterProduitDAO_XML(){
         this.produitDAO_xml = new ProduitDAO_XML();
+        this.counter = 1;
     }
 
     @Override
-    public int create(String nom, double prixUnitaireHT, int qte) throws QteInvalide, PrixInvalide {
-            this.produitDAO_xml.creer(new Produit(nom,prixUnitaireHT,qte));
-            I_Produit produit = this.produitDAO_xml.lire(nom);
-            return produit.getId();
+    public int create(String nom, double prixUnitaireHT, int qte){
+            this.produitDAO_xml.creer(new Produit(counter,nom,prixUnitaireHT,qte));
+            counter++;
+            return counter;
     }
 
     /**
@@ -41,28 +44,31 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO {
     }
 
     public I_Produit readByName(String nom){
+        Logger.getLogger(TAG).log(Level.INFO,"Read by name");
         return this.produitDAO_xml.lire(nom);
     }
 
     @Override
     public List<I_Produit> readAll(){
-
-           return this.produitDAO_xml.lireTous();
-
+        Logger.getLogger(TAG).log(Level.INFO,"readAll");
+        return this.produitDAO_xml.lireTous();
     }
 
     @Override
     public boolean update(I_Produit p) {
+        Logger.getLogger(TAG).log(Level.INFO,"Update");
         return this.produitDAO_xml.maj(p);
     }
 
     @Override
     public boolean delete(I_Produit p) {
+        Logger.getLogger(TAG).log(Level.INFO,"Delete");
         return this.produitDAO_xml.supprimer(p);
     }
 
     @Override
     public Produit hydrateProduit() { //Pas utilisé parce que pas besoin d'hydrater
+        Logger.getLogger(TAG).log(Level.INFO,"Hydrate (should not be used)");
         return null;
     }
 }
