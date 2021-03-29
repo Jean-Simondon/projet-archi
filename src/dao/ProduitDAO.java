@@ -8,10 +8,7 @@ import metier.I_Produit;
 import exception.database.HydrateException;
 import metier.Produit;
 
-import java.sql.CallableStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,6 +17,17 @@ import java.util.logging.Logger;
 public class ProduitDAO implements I_ProduitDAO {
 
     private static final String TAG = "[ProduitDAO]";
+
+    private ResultSet rs;
+    private Connection cn;
+    private PreparedStatement pst;
+
+    public ProduitDAO(){
+        DAOManager.ConnexionBD();
+        rs = DAOManager.rs;
+        cn = DAOManager.cn;
+        pst = DAOManager.pst;
+    }
 
     /**
      * @param nom Le nom du produit
@@ -34,13 +42,13 @@ public class ProduitDAO implements I_ProduitDAO {
         int id = -1;
         try {
             // Récupération du prochain ID de la table Produit
-            CallableStatement cstId = DAOManager.cn.prepareCall("{ ? = call getNextValSequenceProduit() }"); // appel de fonction pour obtenir le prochain ID de la table Produits
+            CallableStatement cstId = cn.prepareCall("{ ? = call getNextValSequenceProduit() }"); // appel de fonction pour obtenir le prochain ID de la table Produits
             cstId.registerOutParameter(1, Types.NUMERIC);
             cstId.execute();
             id = cstId.getInt(1);
 
             // Insertion du produit dans la BDD
-            CallableStatement cst = DAOManager.cn.prepareCall("INSERT INTO Produits (id, nom, prixUnitaireHT, qte) VALUES (?, ?, ?, ?)");
+            CallableStatement cst = cn.prepareCall("INSERT INTO Produits (id, nom, prixUnitaireHT, qte) VALUES (?, ?, ?, ?)");
             cst.setInt(1, id);
             cst.setString(2,nom);
             cst.setDouble(3,prixUnitaireHT);
@@ -74,9 +82,9 @@ public class ProduitDAO implements I_ProduitDAO {
     public I_Produit readById(int id)
     {
         try{
-            DAOManager.pst = DAOManager.cn.prepareStatement("SELECT * FROM produits WHERE ID = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            DAOManager.pst.setInt(1, id);
-            DAOManager.rs = DAOManager.pst.executeQuery();
+            pst = cn.prepareStatement("SELECT * FROM produits WHERE ID = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst.setInt(1, id);
+            rs = pst.executeQuery();
             return hydrateProduit();
         } catch (SQLException e ){
            Logger.getLogger(TAG).log(Level.SEVERE,"Read Error");
@@ -96,11 +104,11 @@ public class ProduitDAO implements I_ProduitDAO {
     @Override
     public I_Produit readByName(String name) {
         try{
-            DAOManager.pst = DAOManager.cn.prepareStatement("SELECT * FROM produits WHERE NOM = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            DAOManager.pst.setString(1, name);
-            DAOManager.rs = DAOManager.pst.executeQuery();
-            DAOManager.rs.next();
-            if(!DAOManager.rs.isAfterLast()){
+            pst = cn.prepareStatement("SELECT * FROM produits WHERE NOM = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst.setString(1, name);
+            rs = pst.executeQuery();
+            rs.next();
+            if(!rs.isAfterLast()){
                 return hydrateProduit();
             }
             else{return null;}
@@ -121,20 +129,21 @@ public class ProduitDAO implements I_ProduitDAO {
     public List<I_Produit> readAll() {
         Logger.getLogger(TAG).log(Level.INFO,"Read all");
         try {
-            DAOManager.pst = DAOManager.cn.prepareStatement("SELECT * FROM produits", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            DAOManager.rs = DAOManager.pst.executeQuery();
+            pst = cn.prepareStatement("SELECT * FROM produits", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = pst.executeQuery();
         } catch (Exception e) {
-            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur SQL : " + e.getLocalizedMessage());
+            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur SQL : ");
+            e.printStackTrace();
             return new ArrayList<>();
         }
 
         List<I_Produit> listeProduits = new ArrayList<>();
 
         try {
-            DAOManager.rs.next();
-            while(!DAOManager.rs.isAfterLast()){
+            rs.next();
+            while(!rs.isAfterLast()){
                 listeProduits.add(hydrateProduit());
-                DAOManager.rs.next();
+                rs.next();
             }
             return listeProduits;
         } catch (SQLException e) {
@@ -155,7 +164,7 @@ public class ProduitDAO implements I_ProduitDAO {
      */
     public boolean update(int id, String name, double prixUnitaireHT, int qte) {
         try {
-            CallableStatement cst = DAOManager.cn.prepareCall("UPDATE Produits SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?");
+            CallableStatement cst = cn.prepareCall("UPDATE Produits SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?");
             cst.setString(1, name);
             cst.setDouble(2, prixUnitaireHT);
             cst.setInt(3, qte);
@@ -182,7 +191,7 @@ public class ProduitDAO implements I_ProduitDAO {
     public boolean delete(int id) throws DeleteException {
         Logger.getLogger(TAG).log(Level.INFO,"Delete");
         try {
-        CallableStatement cst = DAOManager.cn.prepareCall("DELETE FROM Produits WHERE id = ?");
+        CallableStatement cst = cn.prepareCall("DELETE FROM Produits WHERE id = ?");
         cst.setInt(1, id);
         cst.execute();
         } catch (SQLException e) {
@@ -206,14 +215,14 @@ public class ProduitDAO implements I_ProduitDAO {
         double prixUnitaireHT = -1;
         int qte = -1;
         try{
-            id = DAOManager.rs.getInt("id");
-            nom = DAOManager.rs.getString("nom");
-            prixUnitaireHT = DAOManager.rs.getDouble("prixUnitaireHT");
-            if( DAOManager.rs.wasNull() ) {
+            id = rs.getInt("id");
+            nom = rs.getString("nom");
+            prixUnitaireHT = rs.getDouble("prixUnitaireHT");
+            if( rs.wasNull() ) {
                 prixUnitaireHT = -1;
             }
-            qte = DAOManager.rs.getInt("qte");
-            if( DAOManager.rs.wasNull() ) {
+            qte = rs.getInt("qte");
+            if( rs.wasNull() ) {
                 qte = -1;
             }
         } catch (SQLException e) {
@@ -224,7 +233,13 @@ public class ProduitDAO implements I_ProduitDAO {
     }
 
     public void disconnect(){
-        DAOManager.deconnexion();
+        try{
+            rs.close();
+            pst.close();
+            cn.close();
+        }catch (SQLException e){
+            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur pendant la disconnection");
+        }
     }
 
 

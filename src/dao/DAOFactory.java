@@ -12,7 +12,7 @@ public class DAOFactory {
     public static I_ProduitDAO getInstance(){
         System.out.println(TAG +  " : getInstance");
         if( dao == null) {
-            dao = new AdapterProduitDAO_XML();
+            dao = new ProduitDAO();
         }
         return dao;
     }
