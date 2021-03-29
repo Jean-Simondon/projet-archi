@@ -1,14 +1,12 @@
 package metier;
 
 import dao.DAOFactory;
-import dao.ProduitDAO;
-import exception.database.MAJImpossible;
+import exception.database.DeleteException;
 import exception.database.ReadException;
-import exception.product.ProductException;
-
+import exception.product.PrixInvalide;
+import exception.product.QteInvalide;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,7 +24,7 @@ public class Catalogue implements I_Catalogue {
             lesProduits = DAOFactory.getInstance().readAll(); // Agressive loading
 
             if ( df == null ) {
-                initialization();
+                initializeDF();
             }
         }catch (ReadException e){
            Logger.getLogger(Catalogue.TAG).log(Level.WARNING,"Erreur pendant l'initialisation du catalogue");
@@ -37,7 +35,7 @@ public class Catalogue implements I_Catalogue {
     /**
      * Initialize le DecimalFormat de la classe Catalogue
      */
-    private void initialization()
+    private void initializeDF()
     {
         df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
@@ -55,8 +53,13 @@ public class Catalogue implements I_Catalogue {
 
     @Override
     public boolean addProduit(String nom, double prix, int qte) {
-        I_Produit produit = new Produit(nom,prix,qte);
-        return addProduit(produit);
+        try{
+            I_Produit produit = new Produit(nom,prix,qte);
+            return addProduit(produit);
+        }catch(QteInvalide | PrixInvalide e ) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     /**
@@ -84,7 +87,12 @@ public class Catalogue implements I_Catalogue {
         if(index == -1 ){
             return false;
         }
-        return this.lesProduits.remove(index) != null;
+        try {
+            return DAOFactory.getInstance().delete(this.lesProduits.remove(index));
+        } catch (DeleteException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override

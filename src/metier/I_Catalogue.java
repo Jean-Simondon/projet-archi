@@ -1,8 +1,5 @@
 package metier;
 
-import exception.database.MAJImpossible;
-import exception.product.ProductException;
-
 import java.util.List;
 
 public interface I_Catalogue {

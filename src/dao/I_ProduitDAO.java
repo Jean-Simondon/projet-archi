@@ -6,10 +6,6 @@ import exception.database.ReadException;
 import exception.database.UpdateException;
 import exception.product.ProductException;
 import metier.I_Produit;
-import metier.Produit;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public interface I_ProduitDAO {
@@ -26,7 +22,7 @@ public interface I_ProduitDAO {
 
     boolean update(I_Produit p) throws UpdateException;
 
-    boolean delete(I_Produit p) throws DeleteException, SQLException;
+    boolean delete(I_Produit p) throws DeleteException;
 
     I_Produit hydrateProduit() throws HydrateException, ProductException;
 
