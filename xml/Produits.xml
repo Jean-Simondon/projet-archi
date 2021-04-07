@@ -1,0 +1,3 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listeProduits>
+<produit nom="Bounty"><prixHT>8.0</prixHT><quantite>7</quantite></produit><produit nom="Raider"><prixHT>5.5</prixHT><quantite>9</quantite></produit><produit nom="Treets"><prixHT>3.6</prixHT><quantite>19</quantite></produit><produit nom="Twix"><prixHT>12.6</prixHT><quantite>1</quantite></produit><produit nom="Nuts"><prixHT>1.0</prixHT><quantite>3</quantite></produit><produit nom="Kit Kat"><prixHT>1.0</prixHT><quantite>10</quantite></produit><produit nom="Snickers"><prixHT>1.0</prixHT><quantite>0</quantite></produit><produit nom="M&amp;M's"><prixHT>8.0</prixHT><quantite>1</quantite></produit><produit nom="Mars"><prixHT>10.0</prixHT><quantite>5</quantite></produit></listeProduits>

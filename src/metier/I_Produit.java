@@ -2,7 +2,7 @@ package metier;
 
 import exception.database.MAJImpossible;
 
-public interface I_Produit extends PersistableEntity{
+public interface I_Produit{
 
 boolean ajouter(int qteAchetee);
 boolean enlever(int qteVendue);

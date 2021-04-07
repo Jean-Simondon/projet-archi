@@ -1,9 +1,12 @@
 package metier;
 
 import dao.DAOFactory;
+import dao.I_ProduitDAO;
 import exception.database.DeleteException;
 import exception.database.ReadException;
+import exception.database.UpdateException;
 import exception.product.PrixInvalide;
+import exception.product.ProductException;
 import exception.product.QteInvalide;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -19,10 +22,15 @@ public class Catalogue implements I_Catalogue {
 
     static private DecimalFormat df;
 
+    /**
+     * Data mapper : Les classes métiers tels que catalogue utilisent les DAO, et non la classe produit en elle même
+     */
+    private I_ProduitDAO produitDAO;
+
     public Catalogue() {
         try{
-            lesProduits = DAOFactory.getInstance().readAll(); // Agressive loading
-
+            produitDAO = DAOFactory.getInstance();
+            lesProduits = produitDAO.readAll(); // Agressive loading
             if ( df == null ) {
                 initializeDF();
             }
@@ -46,7 +54,13 @@ public class Catalogue implements I_Catalogue {
     @Override
     public boolean addProduit(I_Produit produit) {
         if( isValidProduit(produit) ) {
-            return lesProduits.add(produit);
+            try{
+                this.produitDAO.create(produit);
+                lesProduits.add(produit);
+                return true;
+            }catch (ProductException e ){
+                return false;
+            }
         }
         return false;
     }
@@ -88,7 +102,7 @@ public class Catalogue implements I_Catalogue {
             return false;
         }
         try {
-            return DAOFactory.getInstance().delete(this.lesProduits.remove(index));
+            return produitDAO.delete(this.lesProduits.remove(index));
         } catch (DeleteException e) {
             e.printStackTrace();
             return false;
@@ -98,19 +112,35 @@ public class Catalogue implements I_Catalogue {
     @Override
     public boolean acheterStock(String nomProduit, int qteAchetee) {
         int index = this.findIndexOfProduct(nomProduit);
-        if(index == -1 ){
+        if(index == -1){
             return false;
         }
-        return this.lesProduits.get(index).ajouter(qteAchetee);
+        I_Produit produit = this.lesProduits.get(index);
+        try {
+            produit.ajouter(qteAchetee);
+            this.produitDAO.update(produit);
+            return true;
+        }catch (UpdateException e ){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean vendreStock(String nomProduit, int qteVendue) {
         int index = this.findIndexOfProduct(nomProduit);
-        if(index == -1 ){
+        if(index == -1){
             return false;
         }
-        return this.lesProduits.get(index).enlever(qteVendue);
+        I_Produit produit = this.lesProduits.get(index);
+        try {
+            produit.enlever(qteVendue);
+            this.produitDAO.update(produit);
+            return true;
+        }catch (UpdateException e ){
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
@@ -149,10 +179,12 @@ public class Catalogue implements I_Catalogue {
         return index;
     }
 
-    //Todo  : je sais pas a quoi elle sert cette méthode..
+    /**
+     * Je crois que cette méthode sert à "terminer" le programme du coup
+     */
     @Override
     public void clear() {
-
+        this.produitDAO.disconnect();
     }
 
     @Override

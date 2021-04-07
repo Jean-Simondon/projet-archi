@@ -3,7 +3,9 @@ package presentation;
 import controller.ControllerAchatVente;
 import controller.ControllerCreationSuppression;
 import controller.ControllerEtatStock;
+import controller.ControllerManager;
 import dao.DAOManager;
+import dao.I_ProduitDAO;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -25,7 +27,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btVente;
 	private JButton btQuitter;
 
-	
+
 	public FenetrePrincipale() {
 		Logger.getLogger(TAG).log(Level.INFO,"constructeur");
 		
@@ -69,9 +71,6 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		btAchat.addActionListener(this);
 		btVente.addActionListener(this);
 		btQuitter.addActionListener(this);
-
-		DAOManager.ConnexionBD();
-		
 		addWindowListener(this);
 		setVisible(true);
 	}
@@ -119,7 +118,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 
 	public void windowClosing(WindowEvent arg0) {
 		Logger.getLogger(TAG).log(Level.INFO,"windowClosing");
-		DAOManager.deconnexion();
+		ControllerManager.disconnect();
 		System.out.println("Au revoir");
 		System.exit(0);
 	}
