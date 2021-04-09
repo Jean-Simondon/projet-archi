@@ -6,7 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class FenetreNouveauProduit extends JFrame implements ActionListener {
+public class FenetreNouveauProduit extends JFrame implements ActionListener
+{
 
 	private static final String TAG = "FenetreNouveauProduit";
 
@@ -17,8 +18,8 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 	private JButton btValider;
 
 //	public FenetreNouveauProduit(String[] lesCategories) {
-	public FenetreNouveauProduit() {	
-
+	public FenetreNouveauProduit()
+	{
 		setTitle("Creation Produit");
 		setBounds(500, 500, 200, 250);
 		Container contentPane = getContentPane();
@@ -51,7 +52,8 @@ public class FenetreNouveauProduit extends JFrame implements ActionListener {
 		setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		if (e.getSource() == btValider){
 			ControllerCreationSuppression.creerProduit(txtNom.getText(),Double.parseDouble(txtPrixHT.getText()),Integer.parseInt(txtQte.getText()));
 		}

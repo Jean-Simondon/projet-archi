@@ -4,8 +4,6 @@ import controller.ControllerAchatVente;
 import controller.ControllerCreationSuppression;
 import controller.ControllerEtatStock;
 import controller.ControllerManager;
-import dao.DAOManager;
-import dao.I_ProduitDAO;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -13,8 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
 
-public class FenetrePrincipale extends JFrame implements ActionListener,
-		WindowListener {
+public class FenetrePrincipale extends JFrame implements ActionListener, WindowListener
+{
 
 	private static final String TAG = "FenetrePrincipale";
 
@@ -28,7 +26,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 	private JButton btQuitter;
 
 
-	public FenetrePrincipale() {
+	public FenetrePrincipale()
+	{
 		Logger.getLogger(TAG).log(Level.INFO,"constructeur");
 		
 		setTitle("exercice Produits");
@@ -75,7 +74,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		Logger.getLogger(TAG).log(Level.INFO,"actionPerformed");
 
 		String[] tabProduits = new String[] { "Mars", "Raider", "Twix", "Treets", "M&M's", "Smarties" };
@@ -116,35 +116,43 @@ public class FenetrePrincipale extends JFrame implements ActionListener,
 		}
 	}
 
-	public void windowClosing(WindowEvent arg0) {
+	public void windowClosing(WindowEvent arg0)
+	{
 		Logger.getLogger(TAG).log(Level.INFO,"windowClosing");
 		ControllerManager.disconnect();
 		System.out.println("Au revoir");
 		System.exit(0);
 	}
 
-	public void windowActivated(WindowEvent arg0) {
+	public void windowActivated(WindowEvent arg0)
+	{
 //		Logger.getLogger(TAG).log(Level.INFO,"windowActivated");
 	}
-	public void windowClosed(WindowEvent arg0) {
+	public void windowClosed(WindowEvent arg0)
+	{
 //		Logger.getLogger(TAG).log(Level.INFO,"windowClosed");
 	}
-	public void windowDeactivated(WindowEvent arg0) {
+	public void windowDeactivated(WindowEvent arg0)
+	{
 //		Logger.getLogger(TAG).log(Level.INFO,"windowDeactivated");
 	}
-	public void windowDeiconified(WindowEvent arg0) {
+	public void windowDeiconified(WindowEvent arg0)
+	{
 //		Logger.getLogger(TAG).log(Level.INFO,"windowDeiconified");
 	}
-	public void windowIconified(WindowEvent arg0) {
+	public void windowIconified(WindowEvent arg0)
+	{
 //		Logger.getLogger(TAG).log(Level.INFO,"windowIconified");
 	}
-	public void windowOpened(WindowEvent arg0) {
+	public void windowOpened(WindowEvent arg0)
+	{
 //		Logger.getLogger(TAG).log(Level.INFO,"windowOpened");
 	}
 
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args)
+	{
 		Logger.getLogger(TAG).log(Level.INFO,"main launch");
 		new FenetrePrincipale();
 	}

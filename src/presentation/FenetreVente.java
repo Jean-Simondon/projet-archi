@@ -6,7 +6,8 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class FenetreVente extends JFrame implements ActionListener {
+public class FenetreVente extends JFrame implements ActionListener
+{
 
 	private static final String TAG = "FenetreVente";
 
@@ -14,7 +15,8 @@ public class FenetreVente extends JFrame implements ActionListener {
 	private JTextField txtQuantite;
 	private JComboBox<String> combo;
 
-	public FenetreVente(String[] lesProduits) {
+	public FenetreVente(String[] lesProduits)
+	{
 		setTitle("Vente");
 		setBounds(500, 500, 200, 125);
 		Container contentPane = getContentPane();
@@ -35,7 +37,8 @@ public class FenetreVente extends JFrame implements ActionListener {
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		if(e.getSource() == btVente){
 			ControllerAchatVente.vendreProduit((String)combo.getSelectedItem(),Integer.parseInt(txtQuantite.getText()));
 		}

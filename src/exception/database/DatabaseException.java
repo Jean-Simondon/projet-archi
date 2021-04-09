@@ -1,9 +1,8 @@
 package exception.database;
 
-public class DatabaseException extends Exception{
-
+public class DatabaseException extends Exception
+{
     public DatabaseException(String message)
-
     {
         super(message);
     }

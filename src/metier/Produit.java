@@ -1,8 +1,5 @@
 package metier;
 
-import dao.I_ProduitDAO;
-import dao.DAOFactory;
-import exception.database.UpdateException;
 import exception.product.QteInvalide;
 import exception.product.PrixInvalide;
 
@@ -10,7 +7,8 @@ import java.text.DecimalFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Produit implements I_Produit {
+public class Produit implements I_Produit
+{
 
     private static final String TAG = "[Product]";
 
@@ -34,7 +32,8 @@ public class Produit implements I_Produit {
      * @param prixUnitaireHT le prix HT
      * @param qte la quantité
      */
-    public Produit(int id, String nom , double prixUnitaireHT, int qte){
+    public Produit(int id, String nom , double prixUnitaireHT, int qte)
+    {
         this.id = id;
         this.nom = nom.trim();
         this.prixUnitaireHT = prixUnitaireHT;
@@ -50,7 +49,8 @@ public class Produit implements I_Produit {
      * @param prixUnitaireHT le prix
      * @param qte la quantité
      */
-    public Produit(String nom , double prixUnitaireHT, int qte) throws PrixInvalide, QteInvalide {
+    public Produit(String nom , double prixUnitaireHT, int qte) throws PrixInvalide, QteInvalide
+    {
         this(-1, nom, prixUnitaireHT, qte);
     }
 
@@ -70,7 +70,8 @@ public class Produit implements I_Produit {
      * @return true if it's ok, else false if qte is less than 1
      */
     @Override
-    public boolean ajouter(int qteAchetee) {
+    public boolean ajouter(int qteAchetee)
+    {
         Logger.getLogger(TAG).log(Level.INFO,"Ajout de produit");
         if(qteAchetee > 0 ){
             this.quantiteStock += qteAchetee;
@@ -84,7 +85,8 @@ public class Produit implements I_Produit {
      * @return true if it's ok, else false if qte is less than 1 or if qte is higher than actual stock
      */
     @Override
-    public boolean enlever(int qteVendue){
+    public boolean enlever(int qteVendue)
+    {
         Logger.getLogger(TAG).log(Level.INFO,"Acheter produit");
         if(qteVendue > 0 && qteVendue < getQuantite()){
             this.quantiteStock -= qteVendue;
@@ -94,27 +96,32 @@ public class Produit implements I_Produit {
     }
 
     @Override
-    public String getNom() {
+    public String getNom()
+    {
         return this.nom.strip().replace("\u0009"," ");
     }
 
     @Override
-    public int getQuantite() {
+    public int getQuantite()
+    {
         return this.quantiteStock;
     }
 
     @Override
-    public double getPrixUnitaireHT() {
+    public double getPrixUnitaireHT()
+    {
         return this.prixUnitaireHT;
     }
 
     @Override
-    public double getPrixUnitaireTTC() {
+    public double getPrixUnitaireTTC()
+    {
         return this.prixUnitaireHT + (this.prixUnitaireHT * this.tauxTVA);
     }
 
     @Override
-    public double getPrixStockTTC() {
+    public double getPrixStockTTC()
+    {
         double somme = 0;
         for(int i = 0 ; i < this.quantiteStock ; i++){
             somme += this.getPrixUnitaireTTC();
@@ -122,12 +129,14 @@ public class Produit implements I_Produit {
         return somme;
     }
 
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return getNom() + " - prix HT : " + df.format( getPrixUnitaireHT() ) + " € - prix TTC : " + df.format(getPrixUnitaireTTC()) + " € - quantité en stock : " + getQuantite() + "\n";
     }
 

@@ -8,7 +8,8 @@ import exception.product.ProductException;
 import metier.I_Produit;
 import java.util.List;
 
-public interface I_ProduitDAO {
+public interface I_ProduitDAO
+{
 
     int create(String nom, double prixUnitaireHT, int qte) throws ProductException;
 

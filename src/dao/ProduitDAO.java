@@ -1,11 +1,8 @@
 package dao;
 
 import exception.database.DeleteException;
-import exception.product.PrixInvalide;
-import exception.product.ProduitExisteDeja;
-import exception.product.QteInvalide;
-import metier.I_Produit;
 import exception.database.HydrateException;
+import metier.I_Produit;
 import metier.Produit;
 
 import java.sql.*;
@@ -14,7 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProduitDAO implements I_ProduitDAO {
+public class ProduitDAO implements I_ProduitDAO
+{
 
     private static final String TAG = "[ProduitDAO]";
 
@@ -22,7 +20,8 @@ public class ProduitDAO implements I_ProduitDAO {
     private Connection cn;
     private PreparedStatement pst;
 
-    public ProduitDAO(){
+    public ProduitDAO()
+    {
         DAOManager.ConnexionBD();
         rs = DAOManager.rs;
         cn = DAOManager.cn;
@@ -102,7 +101,8 @@ public class ProduitDAO implements I_ProduitDAO {
      * @return renvoie le Produit trouvé en BDD pour ce nom là
      */
     @Override
-    public I_Produit readByName(String name) {
+    public I_Produit readByName(String name)
+    {
         try{
             pst = cn.prepareStatement("SELECT * FROM produits WHERE NOM = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setString(1, name);
@@ -126,7 +126,8 @@ public class ProduitDAO implements I_ProduitDAO {
      * @return List<I_Produit>
      */
     @Override
-    public List<I_Produit> readAll() {
+    public List<I_Produit> readAll()
+    {
         Logger.getLogger(TAG).log(Level.INFO,"Read all");
         try {
             pst = cn.prepareStatement("SELECT * FROM produits", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -162,7 +163,8 @@ public class ProduitDAO implements I_ProduitDAO {
      * @param prixUnitaireHT le prix unitaire
      * @param qte quantite
      */
-    public boolean update(int id, String name, double prixUnitaireHT, int qte) {
+    public boolean update(int id, String name, double prixUnitaireHT, int qte)
+    {
         try {
             CallableStatement cst = cn.prepareCall("UPDATE Produits SET nom = ?, prixUnitaireHT = ?, qte = ? WHERE id = ?");
             cst.setString(1, name);
@@ -184,11 +186,13 @@ public class ProduitDAO implements I_ProduitDAO {
      * @param p le produit
      */
     @Override
-    public boolean update(I_Produit p){
+    public boolean update(I_Produit p)
+    {
         return update(p.getId(), p.getNom(), p.getPrixUnitaireHT(), p.getQuantite());
     }
 
-    public boolean delete(int id) throws DeleteException {
+    public boolean delete(int id) throws DeleteException
+    {
         Logger.getLogger(TAG).log(Level.INFO,"Delete");
         try {
         CallableStatement cst = cn.prepareCall("DELETE FROM Produits WHERE id = ?");
@@ -202,13 +206,15 @@ public class ProduitDAO implements I_ProduitDAO {
     }
 
     @Override
-    public boolean delete(I_Produit p) throws DeleteException {
+    public boolean delete(I_Produit p) throws DeleteException
+    {
         I_Produit produit = this.readByName(p.getNom());
         return delete(produit.getId());
     }
 
 
-    public I_Produit hydrateProduit() throws HydrateException {
+    public I_Produit hydrateProduit() throws HydrateException
+    {
         Logger.getLogger(TAG).log(Level.INFO,"Hydrate Produit");
         int id = -1;
         String nom;
@@ -232,12 +238,13 @@ public class ProduitDAO implements I_ProduitDAO {
 
     }
 
-    public void disconnect(){
+    public void disconnect()
+    {
         try{
             rs.close();
             pst.close();
             cn.close();
-        }catch (SQLException e){
+        } catch (SQLException e){
             Logger.getLogger(TAG).log(Level.SEVERE,"Erreur pendant la disconnection");
         }
     }

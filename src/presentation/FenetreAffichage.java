@@ -4,13 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class FenetreAffichage extends JFrame implements ActionListener {
+public class FenetreAffichage extends JFrame implements ActionListener
+{
 
 	private static final String TAG = "FenetreAffichage";
 
 	private JButton btOK;
 	
-	public FenetreAffichage(String texte) {
+	public FenetreAffichage(String texte)
+	{
 
 		setTitle("Affichage");
 		setBounds(500, 500, 450, 250);
@@ -41,7 +43,8 @@ public class FenetreAffichage extends JFrame implements ActionListener {
 	 * 
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		this.dispose();
 	}
 

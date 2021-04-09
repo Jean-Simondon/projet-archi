@@ -6,14 +6,16 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class FenetreSuppressionProduit extends JFrame implements ActionListener {
+public class FenetreSuppressionProduit extends JFrame implements ActionListener
+{
 
 	private static final String TAG = "FenetreSuppressionProduit";
 
 	private JButton btSupprimer;
 	private JComboBox<String> combo;
 	
-	public FenetreSuppressionProduit(String[] lesProduits) {
+	public FenetreSuppressionProduit(String[] lesProduits)
+	{
 		
 		setTitle("Suppression produit");
 		setBounds(500, 500, 200, 105);
@@ -32,7 +34,8 @@ public class FenetreSuppressionProduit extends JFrame implements ActionListener 
 		this.setVisible(true);
 	}
 
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
 		if(e.getSource() == btSupprimer){
 			ControllerCreationSuppression.supprimerProduit((String)combo.getSelectedItem());
 		}

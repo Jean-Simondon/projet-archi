@@ -1,6 +1,7 @@
 package controller;
 
-public class ControllerEtatStock extends ControllerManager {
+public class ControllerEtatStock extends ControllerManager
+{
 
     public static String getInformationsProduit()
     {

@@ -14,7 +14,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Catalogue implements I_Catalogue {
+public class Catalogue implements I_Catalogue
+{
 
     private static final String TAG = "[Catalogue]";
 
@@ -27,7 +28,8 @@ public class Catalogue implements I_Catalogue {
      */
     private I_ProduitDAO produitDAO;
 
-    public Catalogue() {
+    public Catalogue()
+    {
         try{
             produitDAO = DAOFactory.getInstance();
             lesProduits = produitDAO.readAll(); // Agressive loading
@@ -52,7 +54,8 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean addProduit(I_Produit produit) {
+    public boolean addProduit(I_Produit produit)
+    {
         if( isValidProduit(produit) ) {
             try{
                 this.produitDAO.create(produit);
@@ -66,7 +69,8 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean addProduit(String nom, double prix, int qte) {
+    public boolean addProduit(String nom, double prix, int qte)
+    {
         try{
             I_Produit produit = new Produit(nom,prix,qte);
             return addProduit(produit);
@@ -82,7 +86,8 @@ public class Catalogue implements I_Catalogue {
      * @return the number of items added
      */
     @Override
-    public int addProduits(List<I_Produit> l) {
+    public int addProduits(List<I_Produit> l)
+    {
         if( l == null) {
             return 0;
         }
@@ -96,7 +101,8 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean removeProduit(String nom) {
+    public boolean removeProduit(String nom)
+    {
         int index = this.findIndexOfProduct(nom);
         if(index == -1 ){
             return false;
@@ -110,7 +116,8 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean acheterStock(String nomProduit, int qteAchetee) {
+    public boolean acheterStock(String nomProduit, int qteAchetee)
+    {
         int index = this.findIndexOfProduct(nomProduit);
         if(index == -1){
             return false;
@@ -127,7 +134,8 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public boolean vendreStock(String nomProduit, int qteVendue) {
+    public boolean vendreStock(String nomProduit, int qteVendue)
+    {
         int index = this.findIndexOfProduct(nomProduit);
         if(index == -1){
             return false;
@@ -144,7 +152,8 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public String[] getNomProduits() {
+    public String[] getNomProduits()
+    {
         ArrayList<String> noms = new ArrayList<>();
         String[] arrayNom = new String[this.lesProduits.size()];
 
@@ -161,7 +170,8 @@ public class Catalogue implements I_Catalogue {
     }
 
     @Override
-    public double getMontantTotalTTC() {
+    public double getMontantTotalTTC()
+    {
         double montantTotal = 0;
         for(I_Produit produit : this.lesProduits){
             montantTotal += produit.getPrixStockTTC();
@@ -169,7 +179,8 @@ public class Catalogue implements I_Catalogue {
         return Math.rint(montantTotal * 100) / 100;
     }
 
-    public int findIndexOfProduct(String nomProduit){
+    public int findIndexOfProduct(String nomProduit)
+    {
         int index = -1;
         for(I_Produit produit : this.lesProduits){
             if(produit.getNom().equals(nomProduit)){
@@ -183,12 +194,14 @@ public class Catalogue implements I_Catalogue {
      * Je crois que cette méthode sert à "terminer" le programme du coup
      */
     @Override
-    public void clear() {
+    public void clear()
+    {
         this.produitDAO.disconnect();
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         String lastLine = "\n" + "Montant total TTC du stock : " + df.format( getMontantTotalTTC()  )+ " €";
 
         StringBuilder body = new StringBuilder();
@@ -204,7 +217,8 @@ public class Catalogue implements I_Catalogue {
      * @param produit les produits
      * @return Bolean estValide
      */
-    public boolean isValidProduit(I_Produit produit) {
+    public boolean isValidProduit(I_Produit produit)
+    {
         if (produit == null) {
             return false;
         } else if ( lesProduits.contains(produit) ) {
