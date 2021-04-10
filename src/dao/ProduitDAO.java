@@ -11,21 +11,14 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProduitDAO implements I_ProduitDAO
+public class ProduitDAO extends DAOManager implements I_ProduitDAO
 {
 
     private static final String TAG = "[ProduitDAO]";
 
-    private ResultSet rs;
-    private Connection cn;
-    private PreparedStatement pst;
-
     public ProduitDAO()
     {
-        DAOManager.ConnexionBD();
-        rs = DAOManager.rs;
-        cn = DAOManager.cn;
-        pst = DAOManager.pst;
+        ConnexionBD();
     }
 
     /**
@@ -240,14 +233,7 @@ public class ProduitDAO implements I_ProduitDAO
 
     public void disconnect()
     {
-        try{
-            rs.close();
-            pst.close();
-            cn.close();
-        } catch (SQLException e){
-            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur pendant la disconnection");
-        }
+        deconnexion();
     }
-
 
 }

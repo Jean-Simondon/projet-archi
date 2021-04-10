@@ -30,13 +30,13 @@ public class Catalogue implements I_Catalogue
 
     public Catalogue()
     {
-        try{
+        try {
             produitDAO = DAOFactory.getInstance();
             lesProduits = produitDAO.readAll(); // Agressive loading
             if ( df == null ) {
                 initializeDF();
             }
-        }catch (ReadException e){
+        } catch (ReadException e) {
            Logger.getLogger(Catalogue.TAG).log(Level.WARNING,"Erreur pendant l'initialisation du catalogue");
         }
 

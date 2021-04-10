@@ -6,9 +6,9 @@ public class DAOManager {
 
     private static final String TAG = "DAOManager";
 
-    public static ResultSet rs;
-    public static Connection cn;
-    public static PreparedStatement pst;
+    protected static ResultSet rs;
+    protected static Connection cn;
+    protected static PreparedStatement pst;
 
     public static void ConnexionBD()
     {
