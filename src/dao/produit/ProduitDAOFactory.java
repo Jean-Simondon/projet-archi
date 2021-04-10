@@ -8,7 +8,7 @@ import dao.produit.bd.ProduitDAO_BD;
 public class ProduitDAOFactory
 {
 
-    private static final String TAG = "DAOFactory";
+    private static final String TAG = "ProduitDAOFactory";
 
     private static I_ProduitDAO dao;
 

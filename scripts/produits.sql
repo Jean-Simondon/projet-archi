@@ -14,11 +14,15 @@ CREATE TABLE Produits(
                          CONSTRAINT nn_qte CHECK (qte IS NOT NULL)
 );
 
+
+
 -- Séquence pour incrémenter l'ID des nouveaux produits
 CREATE SEQUENCE seqProduit START WITH 1 INCREMENT BY 1;
 
+
+
 -- Commande pour ajouter un nouveau produit
-INSERT INTO Produits (id, nom, prixUnitaireHT, qte) VALUES (1, 'Mars', 10, 1);
+--INSERT INTO Produits (id, nom, prixUnitaireHT, qte) VALUES (1, 'Mars', 10, 1);
 
 
 
