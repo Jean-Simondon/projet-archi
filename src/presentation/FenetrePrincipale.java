@@ -70,6 +70,9 @@ public class FenetrePrincipale extends JFrame implements ActionListener, WindowL
 		btAchat.addActionListener(this);
 		btVente.addActionListener(this);
 		btQuitter.addActionListener(this);
+
+		ControllerManager.aggresiveLoading();
+
 		addWindowListener(this);
 		setVisible(true);
 	}
