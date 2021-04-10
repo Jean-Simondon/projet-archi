@@ -1,6 +1,6 @@
 package presentation;
 
-import controller.ControllerCreationSuppression;
+import controller.produit.ControllerCreationSuppression;
 
 import java.awt.*;
 import java.awt.event.*;

@@ -1,9 +1,11 @@
-package dao;
+package dao.produit;
+
+import dao.produit.bd.ProduitDAO_BD;
 
 /**
  * renvoie une instance du DAO souhaité
  */
-public class DAOFactory
+public class ProduitDAOFactory
 {
 
     private static final String TAG = "DAOFactory";
@@ -14,7 +16,7 @@ public class DAOFactory
     {
         System.out.println(TAG +  " : getInstance");
         if( dao == null) {
-            dao = new ProduitDAO();
+            dao = new ProduitDAO_BD();
         }
         return dao;
     }

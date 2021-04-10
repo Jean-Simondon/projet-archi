@@ -1,6 +1,7 @@
-package controller;
+package controller.produit;
 
-import metier.Produit;
+import controller.ControllerManager;
+import metier.produit.Produit;
 
 public class ControllerCreationSuppression extends ControllerManager
 {

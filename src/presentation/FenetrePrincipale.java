@@ -1,8 +1,8 @@
 package presentation;
 
-import controller.ControllerAchatVente;
-import controller.ControllerCreationSuppression;
-import controller.ControllerEtatStock;
+import controller.produit.ControllerAchatVente;
+import controller.produit.ControllerCreationSuppression;
+import controller.produit.ControllerEtatStock;
 import controller.ControllerManager;
 
 import java.awt.*;

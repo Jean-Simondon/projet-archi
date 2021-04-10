@@ -1,9 +1,11 @@
-package dao;
+package dao.produit.bd;
 
+import dao.DAOManagerBD;
+import dao.produit.I_ProduitDAO;
 import exception.database.DeleteException;
 import exception.database.HydrateException;
-import metier.I_Produit;
-import metier.Produit;
+import metier.produit.I_Produit;
+import metier.produit.Produit;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,12 +13,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ProduitDAO extends DAOManager implements I_ProduitDAO
+public class ProduitDAO_BD extends DAOManagerBD implements I_ProduitDAO
 {
 
     private static final String TAG = "[ProduitDAO]";
 
-    public ProduitDAO()
+    public ProduitDAO_BD()
     {
         ConnexionBD();
     }

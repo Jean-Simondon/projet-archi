@@ -1,4 +1,4 @@
-package dao;
+package dao.produit.xml;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.List;
 
 import exception.product.PrixInvalide;
 import exception.product.QteInvalide;
-import metier.I_Produit;
-import metier.Produit;
+import metier.produit.I_Produit;
+import metier.produit.Produit;
 import org.jdom.*;
 import org.jdom.input.*;
 import org.jdom.output.*;

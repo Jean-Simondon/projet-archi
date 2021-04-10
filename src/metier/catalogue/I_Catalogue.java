@@ -1,4 +1,6 @@
-package metier;
+package metier.catalogue;
+
+import metier.produit.I_Produit;
 
 import java.util.List;
 
@@ -12,6 +14,8 @@ public interface I_Catalogue
     boolean vendreStock(String nomProduit, int qteVendue);
     String[] getNomProduits();
     double getMontantTotalTTC();
+    String getName();
+    String getNameAndNumber();
     String toString();
     void clear();
 }

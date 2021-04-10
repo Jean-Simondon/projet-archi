@@ -1,9 +1,10 @@
-package dao;
+package dao.produit.xml;
 
+import dao.produit.I_ProduitDAO;
 import exception.product.PrixInvalide;
 import exception.product.QteInvalide;
-import metier.I_Produit;
-import metier.Produit;
+import metier.produit.I_Produit;
+import metier.produit.Produit;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

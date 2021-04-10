@@ -1,4 +1,6 @@
-package metier;
+package metier.catalogue;
+
+import metier.catalogue.Catalogue;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

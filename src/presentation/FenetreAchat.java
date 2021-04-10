@@ -1,6 +1,6 @@
 package presentation;
 
-import controller.ControllerAchatVente;
+import controller.produit.ControllerAchatVente;
 
 import java.awt.*;
 import java.awt.event.*;

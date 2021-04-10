@@ -1,4 +1,4 @@
-package metier;
+package metier.produit;
 
 public interface I_Produit
 {

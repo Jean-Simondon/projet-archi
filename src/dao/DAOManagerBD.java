@@ -2,7 +2,7 @@ package dao;
 
 import java.sql.*;
 
-public class DAOManager {
+public class DAOManagerBD {
 
     private static final String TAG = "DAOManager";
 

@@ -1,11 +1,11 @@
-package dao;
+package dao.produit;
 
 import exception.database.DeleteException;
 import exception.database.HydrateException;
 import exception.database.ReadException;
 import exception.database.UpdateException;
 import exception.product.ProductException;
-import metier.I_Produit;
+import metier.produit.I_Produit;
 import java.util.List;
 
 public interface I_ProduitDAO

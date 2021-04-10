@@ -1,7 +1,8 @@
-package metier;
+package metier.produit;
 
 import exception.product.QteInvalide;
 import exception.product.PrixInvalide;
+import metier.produit.I_Produit;
 
 import java.text.DecimalFormat;
 import java.util.logging.Level;

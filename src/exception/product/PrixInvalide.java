@@ -1,7 +1,5 @@
 package exception.product;
 
-import metier.Produit;
-
 public class PrixInvalide extends ProductException
 {
     public PrixInvalide()

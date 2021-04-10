@@ -1,13 +1,16 @@
-package metier;
+package metier.catalogue;
 
-import dao.DAOFactory;
-import dao.I_ProduitDAO;
+import dao.produit.ProduitDAOFactory;
+import dao.produit.I_ProduitDAO;
 import exception.database.DeleteException;
 import exception.database.ReadException;
 import exception.database.UpdateException;
 import exception.product.PrixInvalide;
 import exception.product.ProductException;
 import exception.product.QteInvalide;
+import metier.produit.I_Produit;
+import metier.produit.Produit;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,8 @@ public class Catalogue implements I_Catalogue
 
     private List<I_Produit> lesProduits; // Agressive Loading, on récupère tous les produits dès l'instanciation du catalogue
 
+    private String nom;
+
     static private DecimalFormat df;
 
     /**
@@ -28,10 +33,11 @@ public class Catalogue implements I_Catalogue
      */
     private I_ProduitDAO produitDAO;
 
-    public Catalogue()
+    public Catalogue(String nom)
     {
         try {
-            produitDAO = DAOFactory.getInstance();
+            nom = nom;
+            produitDAO = ProduitDAOFactory.getInstance();
             lesProduits = produitDAO.readAll(); // Agressive loading
             if ( df == null ) {
                 initializeDF();
@@ -177,6 +183,16 @@ public class Catalogue implements I_Catalogue
             montantTotal += produit.getPrixStockTTC();
         }
         return Math.rint(montantTotal * 100) / 100;
+    }
+
+    @Override
+    public String getName() {
+        return this.nom;
+    }
+
+    @Override
+    public String getNameAndNumber() {
+        return this.nom + " : " + this.lesProduits.size() + " produits";
     }
 
     public int findIndexOfProduct(String nomProduit)
