@@ -56,12 +56,12 @@ public class Catalogue implements I_Catalogue
     @Override
     public boolean addProduit(I_Produit produit)
     {
-        if( isValidProduit(produit) ) {
-            try{
+        if( isValidProduit( produit) ) {
+            try {
                 this.produitDAO.create(produit);
                 lesProduits.add(produit);
                 return true;
-            }catch (ProductException e ){
+            } catch (ProductException e ) {
                 return false;
             }
         }
