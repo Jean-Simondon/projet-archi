@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 public class Catalogue implements I_Catalogue
 {
 
+    private int id;
+
     private int nbProduits;
 
     private static final String TAG = "[Catalogue]";
@@ -35,9 +37,10 @@ public class Catalogue implements I_Catalogue
      */
     private I_ProduitDAO produitDAO;
 
-    public Catalogue(String nom,int nbProduits)
+    public Catalogue(int id, String nom,int nbProduits)
     {
         try {
+            id = id;
             nbProduits = nbProduits;
             nom = nom;
             produitDAO = ProduitDAOFactory.getInstance();
@@ -46,7 +49,7 @@ public class Catalogue implements I_Catalogue
                 initializeDF();
             }
         } catch (ReadException e) {
-           Logger.getLogger(Catalogue.TAG).log(Level.WARNING,"Erreur pendant l'initialisation du catalogue");
+            Logger.getLogger(Catalogue.TAG).log(Level.WARNING,"Erreur pendant l'initialisation du catalogue");
         }
 
     }
@@ -74,6 +77,7 @@ public class Catalogue implements I_Catalogue
                 return false;
             }
         }
+        majNbProduit();
         return false;
     }
 
@@ -273,4 +277,5 @@ public class Catalogue implements I_Catalogue
     }
 
 }
+
 

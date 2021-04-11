@@ -81,8 +81,8 @@ public class ProduitDAO_BD extends DAOManagerBD implements I_ProduitDAO
             rs = pst.executeQuery();
             return hydrateProduit();
         } catch (SQLException e ){
-           Logger.getLogger(TAG).log(Level.SEVERE,"Read Error");
-           return null;
+            Logger.getLogger(TAG).log(Level.SEVERE,"Read Error");
+            return null;
         } catch(HydrateException e){
             Logger.getLogger(TAG).log(Level.SEVERE,"Erreur d'hydratation");
             return null;
@@ -143,8 +143,8 @@ public class ProduitDAO_BD extends DAOManagerBD implements I_ProduitDAO
             }
             return listeProduits;
         } catch (SQLException e) {
-           Logger.getLogger(TAG).log(Level.SEVERE,"Erreur pendant le read All");
-           return new ArrayList<>();
+            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur pendant le read All");
+            return new ArrayList<>();
         } catch(HydrateException e){
             Logger.getLogger(TAG).log(Level.SEVERE,"Erreur d'hydratation");
             return null;
@@ -190,9 +190,9 @@ public class ProduitDAO_BD extends DAOManagerBD implements I_ProduitDAO
     {
         Logger.getLogger(TAG).log(Level.INFO,"Delete");
         try {
-        CallableStatement cst = cn.prepareCall("DELETE FROM Produits WHERE id = ?");
-        cst.setInt(1, id);
-        cst.execute();
+            CallableStatement cst = cn.prepareCall("DELETE FROM Produits WHERE id = ?");
+            cst.setInt(1, id);
+            cst.execute();
         } catch (SQLException e) {
             Logger.getLogger(TAG).log(Level.SEVERE,"Erreur SQL : " + e.getMessage());
             throw new DeleteException();
@@ -227,7 +227,7 @@ public class ProduitDAO_BD extends DAOManagerBD implements I_ProduitDAO
                 qte = -1;
             }
         } catch (SQLException e) {
-           throw new HydrateException();
+            throw new HydrateException();
         }
         return new Produit(id,nom, prixUnitaireHT, qte);
 
@@ -239,3 +239,4 @@ public class ProduitDAO_BD extends DAOManagerBD implements I_ProduitDAO
     }
 
 }
+

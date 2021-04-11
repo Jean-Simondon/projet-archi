@@ -10,6 +10,7 @@ import exception.product.ProductException;
 import metier.catalogue.I_Catalogue;
 import metier.catalogue.Catalogue;
 import metier.produit.I_Produit;
+import metier.produit.Produit;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -43,7 +44,7 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     }
 
     @Override
-    public List<I_Catalogue> readAll() throws ReadException {
+    public List<I_Catalogue> readAll() {
 
         Logger.getLogger(TAG).log(Level.INFO,"Read all");
         try {
@@ -87,8 +88,19 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     }
 
     @Override
-    public I_Catalogue hydrateCatalogue() throws HydrateException, ProductException {
-        return null;
+    public I_Catalogue hydrateCatalogue() throws HydrateException {
+        Logger.getLogger(TAG).log(Level.INFO,"Hydrate Catalogue");
+        int id = -1;
+        int nbProduits = 0;
+        String nom;
+        try{
+            id = rs.getInt("id");
+            nom = rs.getString("nom");
+            nbProduits = rs.getInt("nbProduits");
+        } catch (SQLException e) {
+            throw new HydrateException();
+        }
+        return new Catalogue(id, nom, nbProduits);
     }
 
     @Override
@@ -96,3 +108,4 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
 
     }
 }
+
