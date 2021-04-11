@@ -23,6 +23,10 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
 
     private static final String TAG = "[CatalogueDAO]";
 
+    public CatalogueDAO() {
+        ConnexionBD();
+    }
+
     @Override
     public int create(String nom) throws ProductException {
         return 0;
@@ -59,10 +63,8 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
         List<I_Catalogue> listeCatalogue = new ArrayList<>();
 
         try {
-            rs.next();
-            while(!rs.isAfterLast()){
+            while( rs.next() ) {
                 listeCatalogue.add(hydrateCatalogue());
-                rs.next();
             }
             return listeCatalogue;
         } catch (SQLException e) {
@@ -102,6 +104,10 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     }
 
     @Override
-    public void disconnect() {}
+    public void disconnect()
+    {
+        deconnexion();
+    }
+
 }
 

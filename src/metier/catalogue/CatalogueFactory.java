@@ -13,6 +13,6 @@ public class CatalogueFactory
     public static Catalogue getInstance()
     {
         Logger.getLogger(TAG).log(Level.INFO,"getInstance of Catalogue");
-        return new Catalogue();
+        return new Catalogue(-1, "la redoute", 10);
     }
 }

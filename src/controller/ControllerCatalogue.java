@@ -21,7 +21,7 @@ public class ControllerCatalogue {
 
     public static String[] cataloguesNames() {
         List<String> catNames = new ArrayList<String>();
-        for (I_Catalogue cat : cats){
+        for (I_Catalogue cat : cats) {
             catNames.add(cat.getName());
         }
         return catNames.toArray(new String[0]);

@@ -136,10 +136,8 @@ public class ProduitDAO_BD extends DAOManagerBD implements I_ProduitDAO
         List<I_Produit> listeProduits = new ArrayList<>();
 
         try {
-            rs.next();
-            while(!rs.isAfterLast()){
+            while( rs.next() ) {
                 listeProduits.add(hydrateProduit());
-                rs.next();
             }
             return listeProduits;
         } catch (SQLException e) {
