@@ -20,6 +20,8 @@ import java.util.logging.Logger;
 public class Catalogue implements I_Catalogue
 {
 
+    private int nbProduits;
+
     private static final String TAG = "[Catalogue]";
 
     private List<I_Produit> lesProduits; // Agressive Loading, on récupère tous les produits dès l'instanciation du catalogue
@@ -33,9 +35,10 @@ public class Catalogue implements I_Catalogue
      */
     private I_ProduitDAO produitDAO;
 
-    public Catalogue(String nom)
+    public Catalogue(String nom,int nbProduits)
     {
         try {
+            nbProduits = nbProduits;
             nom = nom;
             produitDAO = ProduitDAOFactory.getInstance();
             lesProduits = produitDAO.readAll(); // Agressive loading
@@ -103,6 +106,7 @@ public class Catalogue implements I_Catalogue
                 count++;
             }
         }
+        majNbProduit();
         return count;
     }
 
@@ -114,7 +118,13 @@ public class Catalogue implements I_Catalogue
             return false;
         }
         try {
-            return produitDAO.delete(this.lesProduits.remove(index));
+            if(produitDAO.delete(this.lesProduits.remove(index))){
+                majNbProduit();
+                return true;
+            }
+            else{
+                return false;
+            }
         } catch (DeleteException e) {
             e.printStackTrace();
             return false;
@@ -252,6 +262,14 @@ public class Catalogue implements I_Catalogue
             }
         }
         return true;
+    }
+
+    /**
+     * Mets à jour le nombre de nbProduit en fonction de la taille de lesProduits
+     * Doit etre appelé à la fin de toutes les méthodes modifiant la liste lesProduits
+     */
+    public void majNbProduit(){
+        this.nbProduits = this.lesProduits.size();
     }
 
 }
