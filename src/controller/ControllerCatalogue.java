@@ -13,13 +13,13 @@ public class ControllerCatalogue {
 
     protected static List<I_Catalogue> cats;
 
-    public void aggressiveLoading()
+    public static void aggressiveLoading()
     {
         dao = CatalogueDAOFactory.getInstance();
         cats = dao.readAll();
     }
 
-    public String[] cataloguesNames() {
+    public static String[] cataloguesNames() {
         List<String> catNames = new ArrayList<String>();
         for (I_Catalogue cat : cats){
             catNames.add(cat.getName());
@@ -27,16 +27,15 @@ public class ControllerCatalogue {
         return catNames.toArray(new String[0]);
     }
 
-    public String[] cataloguesNamesWithNbProduct() {
+    public static String[] cataloguesNamesWithNbProduct() {
         List<String> catNames = new ArrayList<String>();
-        for (I_Catalogue cat : cats){
+        for (I_Catalogue cat : cats) {
             catNames.add(cat.getName() + " : " +  cat.getNbProduits() + " produits");
         }
-//        return catNames.toArray(new String[0]);
-
-        String[] tab2 = {"Formacia : 6 produits" , "Le Redoutable : 4 produits" , "Noitaicossa : 0 produits" };
-        return tab2;
+        return catNames.toArray(new String[0]);
     }
+
+
 
 }
 

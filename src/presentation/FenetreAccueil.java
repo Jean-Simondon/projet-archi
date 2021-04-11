@@ -1,7 +1,11 @@
 package presentation;
 
+import controller.ControllerCatalogue;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 public class FenetreAccueil extends JFrame implements ActionListener {
@@ -76,12 +80,13 @@ public class FenetreAccueil extends JFrame implements ActionListener {
         btSupprimer.addActionListener(this);
         btSelectionner.addActionListener(this);
 
-        String[] tab  = {"Formacia" , "Le Redoutable", "Noitaicossa"};
-//        String[] tab = ControllerCatalogue.getCatalogues();
-        modifierListesCatalogues(tab);
-        String[] tab2 = {"Formacia : 6 produits" , "Le Redoutable : 4 produits" , "Noitaicossa : 0 produits" };
-        modifierDetailCatalogues(tab2);
-        modifierNbCatalogues(3);
+        /** Aggressive Loading : */
+        ControllerCatalogue.aggressiveLoading();
+        modifierListesCatalogues(ControllerCatalogue.cataloguesNames());
+        String[] catNames = ControllerCatalogue.cataloguesNamesWithNbProduct();
+        modifierDetailCatalogues(catNames);
+        modifierNbCatalogues(catNames.length);
+
         setVisible(true);
     }
 
