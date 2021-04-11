@@ -1,4 +1,4 @@
-package controller;
+package controller.produit;
 
 import metier.catalogue.CatalogueFactory;
 import metier.catalogue.I_Catalogue;

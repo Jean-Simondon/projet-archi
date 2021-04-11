@@ -18,5 +18,6 @@ public interface I_Catalogue
     String getNameAndNumber();
     int getId();
     String toString();
+    int getNbProduits();
     void clear();
 }

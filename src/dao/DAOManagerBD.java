@@ -9,6 +9,7 @@ public class DAOManagerBD {
     protected static ResultSet rs;
     protected static Connection cn;
     protected static PreparedStatement pst;
+    protected static Statement st;
 
     public static void ConnexionBD()
     {

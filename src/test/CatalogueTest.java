@@ -23,7 +23,7 @@ public class CatalogueTest {
 	@Before
 	public void setUp() {
 		DAOManagerBD.ConnexionBD();
-		cat = new Catalogue();
+		cat = new Catalogue(-1,"la-redoute",10);
 //		Si votre Catalogue est un Singleton, il faut changer la ligne précédente puis vider le Catalogue avec la méthode clear() comme indiqué à la ligne suivante
 //		cat.clear();
 	}

@@ -3,7 +3,7 @@ package presentation;
 import controller.produit.ControllerAchatVente;
 import controller.produit.ControllerCreationSuppression;
 import controller.produit.ControllerEtatStock;
-import controller.ControllerManager;
+import controller.produit.ControllerManager;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -16,6 +16,8 @@ public class FenetrePrincipale extends JFrame implements ActionListener, WindowL
 
 	private static final String TAG = "FenetrePrincipale";
 
+	private String nomCatalogue;
+
 	private JButton btAfficher;
 	private JButton btNouveauProduit;
 	private JButton btSupprimerProduit;
@@ -26,11 +28,12 @@ public class FenetrePrincipale extends JFrame implements ActionListener, WindowL
 	private JButton btQuitter;
 
 
-	public FenetrePrincipale()
+	public FenetrePrincipale(String nomCatalogue)
 	{
 		Logger.getLogger(TAG).log(Level.INFO,"constructeur");
+		nomCatalogue = nomCatalogue;
 		
-		setTitle("exercice Produits");
+		setTitle("Exercice");
 		setBounds(500, 500, 320, 250);
 		JPanel panAffichage = new JPanel();
 		JPanel panNouveauSupprimerProduit = new JPanel();
@@ -89,7 +92,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, WindowL
 		if ( e.getSource() == btAfficher ) {
 			Logger.getLogger(TAG).log(Level.INFO,"btAfficher");
 			String affichage = ControllerEtatStock.getInformationsProduit();
-			new FenetreAffichage(affichage);
+			new FenetreAffichage(nomCatalogue, affichage);
 		}
 		if ( e.getSource() == btNouveauProduit ) {
 			Logger.getLogger(TAG).log(Level.INFO,"btNouveauProduit");

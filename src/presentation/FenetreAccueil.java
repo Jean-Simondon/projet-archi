@@ -1,11 +1,9 @@
 package presentation;
 
-import controller.ControllerCatalogue;
+import controller.catalogue.ControllerCatalogue;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.*;
 
 public class FenetreAccueil extends JFrame implements ActionListener {

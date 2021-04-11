@@ -11,10 +11,10 @@ public class FenetreAffichage extends JFrame implements ActionListener
 
 	private JButton btOK;
 	
-	public FenetreAffichage(String texte)
+	public FenetreAffichage(String nomCatalogue, String texte)
 	{
 
-		setTitle("Affichage");
+		setTitle("nomCatalogue");
 		setBounds(500, 500, 450, 250);
 		JPanel panHaut = new JPanel();
 		JPanel panBas = new JPanel();

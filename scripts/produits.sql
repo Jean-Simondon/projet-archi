@@ -7,7 +7,7 @@ CREATE TABLE Produits(
                          qte NUMBER,
                          idCatalogue NUMBER,
                          CONSTRAINT pk_produit PRIMARY KEY (id),
-                         CONSTRAINT fk_catalogue_produit FOREIGN KEY (idCatalogue) REFERENCES Catalogues (id),
+                         CONSTRAINT fk_catalogue_produit FOREIGN KEY (idCatalogue) REFERENCES Catalogues (id) ON DELETE CASCADE,
                          CONSTRAINT nn_catalogue_id CHECK (idCatalogue IS NOT NULL),
                          CONSTRAINT nn_nom_produit CHECK (nom IS NOT NULL),
                          CONSTRAINT nn_prixUnitaireHT CHECK (prixUnitaireHT IS NOT NULL),

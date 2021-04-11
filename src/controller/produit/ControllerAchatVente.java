@@ -1,7 +1,5 @@
 package controller.produit;
 
-import controller.ControllerManager;
-
 public class ControllerAchatVente extends ControllerManager
 {
 

@@ -1,17 +1,22 @@
-package controller;
+package controller.catalogue;
 
 import dao.catalogue.I_CatalogueDAO;
 import dao.catalogue.CatalogueDAOFactory;
+import exception.database.DeleteException;
+import exception.database.catalogue.CatalogueException;
 import metier.catalogue.I_Catalogue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ControllerCatalogue {
 
     private static I_CatalogueDAO dao;
 
     protected static List<I_Catalogue> cats;
+
+    private static String TAG = "Controller catalogue";
 
     public static void aggressiveLoading()
     {
@@ -38,15 +43,17 @@ public class ControllerCatalogue {
     public static void ajouter(String nomCatalogue) {
         try{
             dao.create(nomCatalogue);
-        }catch(CatalogueException e){
-            Logger.getLogger(TAG).severe(() -> "Erreur pendant la suppresion");
+            cats = dao.readAll();
+        } catch (CatalogueException e) {
+            Logger.getLogger(TAG).severe(() -> "Erreur pendant l'ajout");
         }
     }
 
     public static void enlever(String nomCatalogue) {
         try {
             dao.delete(nomCatalogue);
-        }catch(DeleteException e){
+            cats = dao.readAll();
+        } catch (DeleteException e) {
             Logger.getLogger(TAG).severe(() -> "Erreur pendant la suppresion");
         }
     }

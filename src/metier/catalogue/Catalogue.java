@@ -73,7 +73,7 @@ public class Catalogue implements I_Catalogue
                 this.produitDAO.create(produit);
                 lesProduits.add(produit);
                 return true;
-            }catch (ProductException e ){
+            }catch (ProductException e ) {
                 return false;
             }
         }
@@ -274,6 +274,15 @@ public class Catalogue implements I_Catalogue
      */
     public void majNbProduit(){
         this.nbProduits = this.lesProduits.size();
+    }
+
+    public int getNbProduits(){
+        return this.nbProduits;
+    }
+
+    public int getId()
+    {
+        return id;
     }
 
 }
