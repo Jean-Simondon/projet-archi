@@ -22,6 +22,7 @@ public class ControllerCatalogue {
     {
         dao = CatalogueDAOFactory.getInstance();
         cats = dao.readAll();
+        System.out.println(cats);
     }
 
     public static String[] cataloguesNames() {

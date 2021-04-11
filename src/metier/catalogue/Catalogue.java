@@ -37,12 +37,12 @@ public class Catalogue implements I_Catalogue
      */
     private I_ProduitDAO produitDAO;
 
-    public Catalogue(int id, String nom,int nbProduits)
+    public Catalogue(int id, String nom, int nbProduits)
     {
         try {
-            id = id;
-            nbProduits = nbProduits;
-            nom = nom;
+            this.id = id;
+            this.nbProduits = nbProduits;
+            this.nom = nom;
             produitDAO = ProduitDAOFactory.getInstance();
             lesProduits = produitDAO.readAll(); // Agressive loading
             if ( df == null ) {
