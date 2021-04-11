@@ -1,16 +1,26 @@
 package dao.catalogue;
 
+import dao.DAOManagerBD;
+import metier.catalogue.I_Catalogue;
 import exception.database.DeleteException;
 import exception.database.HydrateException;
 import exception.database.ReadException;
 import exception.database.UpdateException;
 import exception.product.ProductException;
 import metier.catalogue.I_Catalogue;
+import metier.catalogue.Catalogue;
+import metier.produit.I_Produit;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class CatalogueDAO implements I_CatalogueDAO {
+public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
 
+    private static final String TAG = "[CatalogueDAO]";
 
     @Override
     public int create(String nom) throws ProductException {
@@ -34,6 +44,35 @@ public class CatalogueDAO implements I_CatalogueDAO {
 
     @Override
     public List<I_Catalogue> readAll() throws ReadException {
+
+        Logger.getLogger(TAG).log(Level.INFO,"Read all");
+        try {
+            pst = cn.prepareStatement("SELECT id, nom, count(*) FROM Catalogues GROUP BY id, nom", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs = pst.executeQuery();
+        } catch (Exception e) {
+            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur SQL : ");
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
+        List<I_Catalogue> listeCatalogue = new ArrayList<>();
+
+        try {
+            rs.next();
+            while(!rs.isAfterLast()){
+                listeCatalogue.add(hydrateCatalogue());
+                rs.next();
+            }
+            return listeCatalogue;
+        } catch (SQLException e) {
+            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur pendant le read All");
+            return new ArrayList<>();
+        } catch(HydrateException e){
+            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur d'hydratation");
+            return null;
+        }
+
+
         return null;
     }
 
