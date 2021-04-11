@@ -39,19 +39,25 @@ public class Catalogue implements I_Catalogue
 
     public Catalogue(int id, String nom, int nbProduits)
     {
+
+        this.id = id;
+        this.nbProduits = nbProduits;
+        this.nom = nom;
+        this.lesProduits = new ArrayList<>();
+        if ( df == null ) {
+            initializeDF();
+        }
+
+
+    }
+
+    public void load() {
         try {
-            this.id = id;
-            this.nbProduits = nbProduits;
-            this.nom = nom;
             produitDAO = ProduitDAOFactory.getInstance();
             lesProduits = produitDAO.readAll(); // Agressive loading
-            if ( df == null ) {
-                initializeDF();
-            }
         } catch (ReadException e) {
             Logger.getLogger(Catalogue.TAG).log(Level.WARNING,"Erreur pendant l'initialisation du catalogue");
         }
-
     }
 
     /**

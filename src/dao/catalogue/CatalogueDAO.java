@@ -51,6 +51,7 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
             pst = cn.prepareStatement("SELECT id, nom, count(p.id) as nbProduits FROM Catalogues c LEFT OUTER JOIN Produits p on c.id = p.idCatalogue WHERE c.id = ? ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setInt(1, id);
             rs = pst.executeQuery();
+            rs.next();
             return hydrateCatalogue();
         } catch (SQLException e ) {
             Logger.getLogger(TAG).log(Level.SEVERE,"Read Error");
@@ -64,14 +65,17 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     @Override
     public I_Catalogue readByName(String name) throws ReadException, HydrateException, CatalogueException {
         try{
-            pst = cn.prepareStatement("SELECT id, nom, count(p.id) FROM Catalogues c LEFT OUTER JOIN Produits p on c.id = p.idCatalogue WHERE c.nom = ? ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst = cn.prepareStatement("SELECT c.id, c.nom, count(p.id) as nbProduits FROM Catalogues c LEFT OUTER JOIN Produits p on c.id = p.idCatalogue WHERE c.nom = ? GROUP BY c.id,c.nom ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setString(1, name);
             rs = pst.executeQuery();
+            rs.next();
             return hydrateCatalogue();
         } catch (SQLException e ) {
+            e.printStackTrace();
             Logger.getLogger(TAG).log(Level.SEVERE,"Read Error");
             return null;
         } catch(HydrateException e){
+            e.printStackTrace();
             Logger.getLogger(TAG).log(Level.SEVERE,"Erreur d'hydratation");
             return null;
         }
@@ -183,6 +187,7 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
             nbProduits = rs.getInt("nbProduits");
             return new Catalogue(id, nom, nbProduits);
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new HydrateException();
         }
     }

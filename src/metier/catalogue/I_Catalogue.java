@@ -20,4 +20,5 @@ public interface I_Catalogue
     String toString();
     int getNbProduits();
     void clear();
+    void load();
 }

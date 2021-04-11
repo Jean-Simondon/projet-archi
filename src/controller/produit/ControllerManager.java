@@ -11,6 +11,7 @@ public class ControllerManager
     public static void aggresiveLoading(String nomCatalogue)
     {
         cat = CatalogueFactory.getInstance(nomCatalogue);
+        cat.load();
     }
 
     public static void disconnect()
