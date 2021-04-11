@@ -71,7 +71,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, WindowL
 		btVente.addActionListener(this);
 		btQuitter.addActionListener(this);
 
-		ControllerManager.aggresiveLoading();
+		ControllerManager.aggresiveLoading(nomCatalogue);
 
 		addWindowListener(this);
 		setVisible(true);
@@ -152,12 +152,13 @@ public class FenetrePrincipale extends JFrame implements ActionListener, WindowL
 //		Logger.getLogger(TAG).log(Level.INFO,"windowOpened");
 	}
 
-	
-	
+
+	/*
 	public static void main(String[] args)
 	{
 		Logger.getLogger(TAG).log(Level.INFO,"main launch");
-		new FenetrePrincipale();
+		new FenetrePrincipale("");
 	}
+	 */
 
 }

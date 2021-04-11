@@ -1,6 +1,7 @@
 package dao.catalogue;
 
 import dao.DAOManagerBD;
+import exception.database.catalogue.CatalogueException;
 import metier.catalogue.I_Catalogue;
 import exception.database.DeleteException;
 import exception.database.HydrateException;
@@ -12,8 +13,10 @@ import metier.catalogue.Catalogue;
 import metier.produit.I_Produit;
 import metier.produit.Produit;
 
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -28,8 +31,22 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     }
 
     @Override
-    public int create(String nom) throws ProductException {
-        return 0;
+    public int create(String nom) throws CatalogueException {
+        Logger.getLogger(TAG).log(Level.INFO,"Create with attributes");
+        try {
+            CallableStatement cst = cn.prepareCall("{ call insertNewCatalogue(?) }"); // appel de fonction pour obtenir le prochain ID de la table Produits
+            cst.setString(1, nom);
+            cst.execute();
+            I_Catalogue cat = readByName(nom);
+            return cat.getId();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ReadException e) {
+            e.printStackTrace();
+        } catch (HydrateException e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     @Override
@@ -83,7 +100,7 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
 
     @Override
     public boolean delete(I_Catalogue c) throws DeleteException {
-        return false;
+        return delete(c.getId());
     }
 
     @Override

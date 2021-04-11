@@ -35,6 +35,21 @@ public class ControllerCatalogue {
         return catNames.toArray(new String[0]);
     }
 
+    public static void ajouter(String nomCatalogue) {
+        try{
+            dao.create(nomCatalogue);
+        }catch(CatalogueException e){
+            Logger.getLogger(TAG).severe(() -> "Erreur pendant la suppresion");
+        }
+    }
+
+    public static void enlever(String nomCatalogue) {
+        try {
+            dao.delete(nomCatalogue);
+        }catch(DeleteException e){
+            Logger.getLogger(TAG).severe(() -> "Erreur pendant la suppresion");
+        }
+    }
 
 
 }

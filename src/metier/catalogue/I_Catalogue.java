@@ -16,6 +16,7 @@ public interface I_Catalogue
     double getMontantTotalTTC();
     String getName();
     String getNameAndNumber();
+    int getId();
     String toString();
     void clear();
 }

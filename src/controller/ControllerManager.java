@@ -8,9 +8,9 @@ public class ControllerManager
 
     protected static I_Catalogue cat;
 
-    public static void aggresiveLoading()
+    public static void aggresiveLoading(String nomCatalogue)
     {
-        cat = CatalogueFactory.getInstance();
+        cat = CatalogueFactory.getInstance(nomCatalogue);
     }
 
     public static void disconnect()

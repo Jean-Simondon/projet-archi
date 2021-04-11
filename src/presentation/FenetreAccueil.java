@@ -90,28 +90,39 @@ public class FenetreAccueil extends JFrame implements ActionListener {
         setVisible(true);
     }
 
+    /**
+     * Mise à jour de l'interface après ajout ou retrait de catalogues
+     */
+    public void maj() {
+        modifierListesCatalogues(ControllerCatalogue.cataloguesNames());
+        String[] catNames = ControllerCatalogue.cataloguesNamesWithNbProduct();
+        modifierDetailCatalogues(catNames);
+        modifierNbCatalogues(catNames.length);
+    }
+
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btAjouter)
-        {
+        if (e.getSource() == btAjouter) {
             String texteAjout = txtAjouter.getText();
-            if (!texteAjout.equals(""))
-            {
+            if (!texteAjout.equals("")) {
                 System.out.println("ajouter le catalogue "+texteAjout);
+                ControllerCatalogue.ajouter(texteAjout);
+                maj();
                 txtAjouter.setText(null);
             }
         }
-        if (e.getSource() == btSupprimer)
-        {
+        if (e.getSource() == btSupprimer) {
             String texteSupprime = (String)cmbSupprimer.getSelectedItem();
-            if (texteSupprime != null)
-                System.out.println("supprime catalogue "+texteSupprime);
+            if (texteSupprime != null) {
+                System.out.println("supprime catalogue " + texteSupprime);
+                ControllerCatalogue.enlever(texteSupprime);
+                maj();
+            }
         }
-        if (e.getSource() == btSelectionner)
-        {
+        if (e.getSource() == btSelectionner) {
             String texteSelection = (String)cmbSupprimer.getSelectedItem();
-            if (texteSelection != null)
-            {
+            if (texteSelection != null) {
                 System.out.println("selectionne catalogue "+texteSelection);
+                FenetrePrincipale FP = new FenetrePrincipale(texteSelection);
                 this.dispose();
             }
         }
