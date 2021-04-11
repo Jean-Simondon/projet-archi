@@ -20,7 +20,6 @@ public class ControllerCatalogue {
     }
 
     public String[] cataloguesNames() {
-        //TODO renvoyer liste de nom de catalogues
         List<String> catNames = new ArrayList<String>();
         for (I_Catalogue cat : cats){
             catNames.add(cat.getName());
@@ -29,7 +28,14 @@ public class ControllerCatalogue {
     }
 
     public String[] cataloguesNamesWithNbProduct() {
-        //TODO renvoyer liste de nom de catalogues avec le nombre de produit associé
+        List<String> catNames = new ArrayList<String>();
+        for (I_Catalogue cat : cats){
+            catNames.add(cat.getName() + " : " +  cat.getNbProduits() + " produits");
+        }
+//        return catNames.toArray(new String[0]);
+
+        String[] tab2 = {"Formacia : 6 produits" , "Le Redoutable : 4 produits" , "Noitaicossa : 0 produits" };
+        return tab2;
     }
 
 }

@@ -1,7 +1,7 @@
 package controller;
 
-import metier.CatalogueFactory;
-import metier.I_Catalogue;
+import metier.catalogue.CatalogueFactory;
+import metier.catalogue.I_Catalogue;
 
 public class ControllerManager
 {

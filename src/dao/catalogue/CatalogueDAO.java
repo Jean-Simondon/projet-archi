@@ -72,9 +72,6 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
             Logger.getLogger(TAG).log(Level.SEVERE,"Erreur d'hydratation");
             return null;
         }
-
-
-        return null;
     }
 
     @Override
@@ -88,7 +85,8 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     }
 
     @Override
-    public I_Catalogue hydrateCatalogue() throws HydrateException {
+    public I_Catalogue hydrateCatalogue() throws HydrateException
+    {
         Logger.getLogger(TAG).log(Level.INFO,"Hydrate Catalogue");
         int id = -1;
         int nbProduits = 0;
@@ -104,8 +102,6 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     }
 
     @Override
-    public void disconnect() {
-
-    }
+    public void disconnect() {}
 }
 
