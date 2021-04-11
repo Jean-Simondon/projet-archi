@@ -31,7 +31,7 @@ public class FenetrePrincipale extends JFrame implements ActionListener, WindowL
 	public FenetrePrincipale(String nomCatalogue)
 	{
 		Logger.getLogger(TAG).log(Level.INFO,"constructeur");
-		nomCatalogue = nomCatalogue;
+		this.nomCatalogue = nomCatalogue;
 		
 		setTitle("Exercice");
 		setBounds(500, 500, 320, 250);
