@@ -26,22 +26,17 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     }
 
     @Override
-    public int create(String nom) throws CatalogueException {
+    public int create(String nom) throws Exception {
         Logger.getLogger(TAG).log(Level.INFO,"Create with attributes");
-        try {
             CallableStatement cst = cn.prepareCall("{ call insertNewCatalogue(?) }"); // appel de fonction pour obtenir le prochain ID de la table Produits
             cst.setString(1, nom);
             cst.execute();
             I_Catalogue cat = readByName(nom);
             return cat.getId();
-        } catch (SQLException | ReadException | HydrateException e) {
-            e.printStackTrace();
-        }
-        return -1;
     }
 
     @Override
-    public int create(I_Catalogue c) throws CatalogueException {
+    public int create(I_Catalogue c) throws Exception {
         return create(c.getName());
     }
 

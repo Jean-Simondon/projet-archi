@@ -13,9 +13,9 @@ import java.util.List;
 
 public interface I_CatalogueDAO {
 
-    int create(String nom) throws CatalogueException;
+    int create(String nom) throws Exception;
 
-    int create(I_Catalogue c) throws CatalogueException;
+    int create(I_Catalogue c) throws Exception;
 
     I_Catalogue readById(int id) throws ReadException, HydrateException;
 

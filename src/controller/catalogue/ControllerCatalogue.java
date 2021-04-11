@@ -40,13 +40,9 @@ public class ControllerCatalogue {
         return catNames.toArray(new String[0]);
     }
 
-    public static void ajouter(String nomCatalogue) {
-        try{
+    public static void ajouter(String nomCatalogue) throws Exception{
             dao.create(nomCatalogue);
             cats = dao.readAll();
-        } catch (CatalogueException e) {
-            Logger.getLogger(TAG).severe(() -> "Erreur pendant l'ajout");
-        }
     }
 
     public static void enlever(String nomCatalogue) {

@@ -10,7 +10,7 @@ public class FenetreAccueil extends JFrame implements ActionListener {
 
     private JButton btAjouter, btSupprimer, btSelectionner;
     private JTextField txtAjouter;
-    private JLabel lbNbCatalogues;
+    private JLabel lbNbCatalogues,errorCatalogue;
     private JComboBox cmbSupprimer, cmbSelectionner;
     private TextArea taDetailCatalogues;
 
@@ -20,6 +20,7 @@ public class FenetreAccueil extends JFrame implements ActionListener {
         Container contentPane = getContentPane();
         JPanel panInfosCatalogues = new JPanel();
         JPanel panNbCatalogues = new JPanel();
+        JPanel panErrorCatalogues = new JPanel();
         JPanel panDetailCatalogues = new JPanel();
         JPanel panGestionCatalogues = new JPanel();
         JPanel panAjouter = new JPanel();
@@ -33,7 +34,9 @@ public class FenetreAccueil extends JFrame implements ActionListener {
 
         panNbCatalogues.add(new JLabel("Nous avons actuellement : "));
         lbNbCatalogues = new JLabel();
+        errorCatalogue = new JLabel();
         panNbCatalogues.add(lbNbCatalogues);
+        panErrorCatalogues.add(errorCatalogue);
 
         taDetailCatalogues = new TextArea();
         taDetailCatalogues.setEditable(false);
@@ -68,6 +71,7 @@ public class FenetreAccueil extends JFrame implements ActionListener {
 
         panInfosCatalogues.setLayout(new BorderLayout());
         panInfosCatalogues.add(panNbCatalogues, "North");
+        panInfosCatalogues.add(panErrorCatalogues,"North");
         panInfosCatalogues.add(panDetailCatalogues, "South");
 
         contentPane.add(panInfosCatalogues, "North");
@@ -103,7 +107,12 @@ public class FenetreAccueil extends JFrame implements ActionListener {
             String texteAjout = txtAjouter.getText();
             if (!texteAjout.equals("")) {
                 System.out.println("ajouter le catalogue "+texteAjout);
-                ControllerCatalogue.ajouter(texteAjout);
+                try{
+                    ControllerCatalogue.ajouter(texteAjout);
+                    errorCatalogue.setText("");
+                }catch(Exception ex){
+                    errorCatalogue.setText("Un catalogue de ce nom existe déjà !");
+                }
                 maj();
                 txtAjouter.setText(null);
             }
