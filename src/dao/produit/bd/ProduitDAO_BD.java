@@ -4,6 +4,7 @@ import dao.DAOManagerBD;
 import dao.produit.I_ProduitDAO;
 import exception.database.DeleteException;
 import exception.database.HydrateException;
+import metier.catalogue.CatalogueFactory;
 import metier.produit.I_Produit;
 import metier.produit.Produit;
 
@@ -42,11 +43,12 @@ public class ProduitDAO_BD extends DAOManagerBD implements I_ProduitDAO
             id = cstId.getInt(1);
 
             // Insertion du produit dans la BDD
-            CallableStatement cst = cn.prepareCall("INSERT INTO Produits (id, nom, prixUnitaireHT, qte) VALUES (?, ?, ?, ?)");
+            CallableStatement cst = cn.prepareCall("INSERT INTO Produits (id, nom, prixUnitaireHT, qte, idCatalogue) VALUES (?, ?, ?, ?, ?)");
             cst.setInt(1, id);
             cst.setString(2,nom);
             cst.setDouble(3,prixUnitaireHT);
             cst.setInt(4,qte);
+            cst.setInt(5, CatalogueFactory.getInstance().getId());
             cst.execute();
 
         } catch (SQLException e) {

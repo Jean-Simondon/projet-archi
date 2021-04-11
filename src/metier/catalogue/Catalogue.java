@@ -74,6 +74,7 @@ public class Catalogue implements I_Catalogue
                 lesProduits.add(produit);
                 return true;
             }catch (ProductException e ) {
+                e.printStackTrace();
                 return false;
             }
         }

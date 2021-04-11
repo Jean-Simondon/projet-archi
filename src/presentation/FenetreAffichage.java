@@ -14,7 +14,7 @@ public class FenetreAffichage extends JFrame implements ActionListener
 	public FenetreAffichage(String nomCatalogue, String texte)
 	{
 
-		setTitle("nomCatalogue");
+		setTitle(nomCatalogue);
 		setBounds(500, 500, 450, 250);
 		JPanel panHaut = new JPanel();
 		JPanel panBas = new JPanel();

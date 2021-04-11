@@ -48,7 +48,7 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     @Override
     public I_Catalogue readById(int id) throws ReadException, HydrateException {
         try{
-            pst = cn.prepareStatement("SELECT id, nom, count(p.id) FROM Catalogues c LEFT OUTER JOIN Produits p on c.id = p.idCatalogue WHERE c.id = ? ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst = cn.prepareStatement("SELECT id, nom, count(p.id) as nbProduits FROM Catalogues c LEFT OUTER JOIN Produits p on c.id = p.idCatalogue WHERE c.id = ? ", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             pst.setInt(1, id);
             rs = pst.executeQuery();
             return hydrateCatalogue();
@@ -93,9 +93,19 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
         List<I_Catalogue> listeCatalogue = new ArrayList<>();
 
         try {
-            while( rs.next() ) {
+            while ( rs.next() ) {
                 listeCatalogue.add(hydrateCatalogue());
             }
+/*
+            rs.next();
+            do {
+                listeCatalogue.add(hydrateCatalogue());
+                System.out.println("TAILLE : " + listeCatalogue.size());
+                rs.next();
+            } while (!rs.isAfterLast());
+
+ */
+
             return listeCatalogue;
         } catch (SQLException e) {
             Logger.getLogger(TAG).log(Level.SEVERE,"Erreur pendant le read All");

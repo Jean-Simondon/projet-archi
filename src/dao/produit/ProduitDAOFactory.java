@@ -3,7 +3,7 @@ package dao.produit;
 import dao.produit.bd.ProduitDAO_BD;
 
 /**
- * renvoie une instance du DAO souhaité
+ * renvoi une instance du DAO souhaité
  */
 public class ProduitDAOFactory
 {
