@@ -77,7 +77,7 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
     }
 
     @Override
-    public List<I_Catalogue> readAll(){
+    public List<I_Catalogue> readAll() {
 
         Logger.getLogger(TAG).log(Level.INFO,"Read all");
         try {
@@ -95,15 +95,6 @@ public class CatalogueDAO extends DAOManagerBD implements I_CatalogueDAO {
             while ( rs.next() ) {
                 listeCatalogue.add(hydrateCatalogue());
             }
-/*
-            rs.next();
-            do {
-                listeCatalogue.add(hydrateCatalogue());
-                System.out.println("TAILLE : " + listeCatalogue.size());
-                rs.next();
-            } while (!rs.isAfterLast());
-
- */
 
             return listeCatalogue;
         } catch (SQLException e) {

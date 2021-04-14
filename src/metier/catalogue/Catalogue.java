@@ -39,7 +39,6 @@ public class Catalogue implements I_Catalogue
 
     public Catalogue(int id, String nom, int nbProduits)
     {
-
         this.id = id;
         this.nbProduits = nbProduits;
         this.nom = nom;
@@ -47,14 +46,13 @@ public class Catalogue implements I_Catalogue
         if ( df == null ) {
             initializeDF();
         }
-
-
     }
 
-    public void load() {
+    public void load()
+    {
         try {
             produitDAO = ProduitDAOFactory.getInstance();
-            lesProduits = produitDAO.readAll(); // Agressive loading
+            lesProduits = produitDAO.readByCatalogue(this.id); // Agressive loading
         } catch (ReadException e) {
             Logger.getLogger(Catalogue.TAG).log(Level.WARNING,"Erreur pendant l'initialisation du catalogue");
         }
@@ -291,7 +289,6 @@ public class Catalogue implements I_Catalogue
     {
         return id;
     }
-
 }
 
 

@@ -1,6 +1,7 @@
 package dao.produit.xml;
 
 import dao.produit.I_ProduitDAO;
+import exception.database.ReadException;
 import exception.product.PrixInvalide;
 import exception.product.QteInvalide;
 import metier.produit.I_Produit;
@@ -60,6 +61,11 @@ public class AdapterProduitDAO_XML implements I_ProduitDAO
     {
         Logger.getLogger(TAG).log(Level.INFO,"readAll");
         return this.produitDAO_xml.lireTous();
+    }
+
+    @Override
+    public List<I_Produit> readByCatalogue(int idCatalogue) throws ReadException {
+        return null;
     }
 
     @Override

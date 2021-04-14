@@ -21,6 +21,8 @@ public interface I_ProduitDAO
 
     List<I_Produit> readAll() throws ReadException;
 
+    List<I_Produit> readByCatalogue(int idCatalogue) throws ReadException;
+
     boolean update(I_Produit p) throws UpdateException;
 
     boolean delete(I_Produit p) throws DeleteException;

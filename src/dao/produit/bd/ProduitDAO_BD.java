@@ -151,6 +151,39 @@ public class ProduitDAO_BD extends DAOManagerBD implements I_ProduitDAO
         }
     }
 
+    public List<I_Produit> readByCatalogue(int catId)
+    {
+        Logger.getLogger(TAG).log(Level.INFO,"Read all by catalogue");
+        try {
+            pst = cn.prepareStatement("SELECT * FROM produits WHERE idcatalogue = ?", ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            pst.setInt(1, catId);
+            rs = pst.executeQuery();
+        } catch (Exception e) {
+            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur SQL : ");
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+
+        List<I_Produit> listeProduits = new ArrayList<>();
+
+        try {
+            while( rs.next() ) {
+                listeProduits.add(hydrateProduit());
+            }
+            return listeProduits;
+        } catch (SQLException e) {
+            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur pendant le read All");
+            return new ArrayList<>();
+        } catch(HydrateException e){
+            Logger.getLogger(TAG).log(Level.SEVERE,"Erreur d'hydratation");
+            return null;
+        }
+    }
+
+
+
+
+
     /**
      * Mets à jour le produit à l'aide de nouvelles données
      * @param id l'id
