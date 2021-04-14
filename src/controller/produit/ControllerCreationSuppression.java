@@ -1,6 +1,6 @@
 package controller.produit;
 
-import metier.produit.Produit;
+import metier.produit.I_Produit;
 
 public class ControllerCreationSuppression extends ControllerManager
 {
@@ -12,7 +12,7 @@ public class ControllerCreationSuppression extends ControllerManager
         return cat.getNomProduits();
     }
 
-    public static boolean creerProduit(Produit produit)
+    public static boolean creerProduit(I_Produit produit)
     {
         return cat.addProduit(produit);
     }
@@ -26,4 +26,5 @@ public class ControllerCreationSuppression extends ControllerManager
     {
         return cat.removeProduit(nomProduit);
     }
+
 }

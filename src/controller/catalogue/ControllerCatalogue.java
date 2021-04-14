@@ -3,7 +3,6 @@ package controller.catalogue;
 import dao.catalogue.I_CatalogueDAO;
 import dao.catalogue.CatalogueDAOFactory;
 import exception.database.DeleteException;
-import exception.database.catalogue.CatalogueException;
 import metier.catalogue.I_Catalogue;
 
 import java.util.ArrayList;
